@@ -1,38 +1,73 @@
-.App {
+* {
+  box-sizing: border-box;
+}
+
+/* main background*/
+.main {
+  /* min-height: 100vh; */
   text-align: center;
+  /* align-content: center;
+  display: flex; */
+  background-image: url("http://zaferaydin.info/wp-content/uploads/2019/11/star-wars-backgrounds-1920x1080-space-wallpaper-cave.jpg");
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* category-container */
+.category-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  width: 70%;
+  max-width: 800px;
+  min-height: 70%;
+  margin: auto;
+  margin-top: 50px;
+  font-size: 30px;
+  font-weight: bold;
   color: white;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
-.App-link {
-  color: #61dafb;
+/* category boxes */
+.category-box {
+  border-style: solid;  border-width: 1.5px;  border-color: yellow; border-radius: 10px;
+  width: 200px;  height: 200px;
+  margin: 20px 20px 20px 20px;
+  text-align: center;
+  line-height: 200px;
+  background-size: cover;
+  background-position: center center;
+  transition: all .2s ease-in-out;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.category-box:hover {
+  transform: scale(1.1);
+  cursor: pointer;
 }
+
+/* category box background images */
+#people {
+  background-image: url("./images/people.jpg");
+}
+
+#vehicles {
+  background-image: url("./images/vehicles.jpg");
+}
+
+#planets {
+  background-image: url("./images/planets.jpg")
+}
+
+#spaceships {
+  background-image: url("./images/spaceships.jpeg");
+}
+
+#species {
+  background-image: url("./images/species.jpg");
+}
+
+#films {
+  background-image: url("./images/films.jpg");
+}
+

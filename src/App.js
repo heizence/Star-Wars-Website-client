@@ -1,24 +1,27 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="main">
+      <div style={{paddingTop: '50px'}}><img src="https://upload.wikimedia.org/wikipedia/en/thumb/3/36/SW_opening_crawl_logo.svg/1024px-SW_opening_crawl_logo.svg.png"
+      width="400" alt=""></img>
+      <h1 style={{color: 'white'}}>Welcome To Star Wars Website!</h1>
+      <h2 style={{color: 'white'}}>This website provides brief information about things in Star Wars.</h2>
+      <h2 style={{color: 'yellow'}}>Choose any category below.</h2>
+      </div>
+      <div className="category-container">
+        <div className="category-box" id="people">People</div>
+        <div className="category-box" id="vehicles">Vehicles</div>
+        <div className="category-box" id="planets">Planets</div>
+        <div className="category-box" id="spaceships">Spaceships</div>
+        <div className="category-box" id="species">Species</div>
+        <div className="category-box" id="films">Films</div>
+      </div>
+      <div style={{color: 'white', fontSize: '20px', marginTop: '40px', paddingBottom: '40px'}}>
+      Informations are provided by Star Wars API. If you would like to know about Star Wars API, 
+      visit <a href="https://swapi.co" target="blank">https://swapi.co</a>
+      </div>
     </div>
   );
 }
