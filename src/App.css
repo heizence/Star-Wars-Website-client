@@ -4,10 +4,8 @@
 
 /* main background*/
 .main {
-  /* min-height: 100vh; */
   text-align: center;
-  /* align-content: center;
-  display: flex; */
+  min-height: 100vh;
   background-image: url("http://zaferaydin.info/wp-content/uploads/2019/11/star-wars-backgrounds-1920x1080-space-wallpaper-cave.jpg");
 }
 
@@ -35,10 +33,11 @@
   width: 200px;  height: 200px;
   margin: 20px 20px 20px 20px;
   text-align: center;
-  line-height: 200px;
   background-size: cover;
   background-position: center center;
   transition: all .2s ease-in-out;
+  display: flex;
+  align-items: center;
 }
 
 .category-box:hover {
@@ -47,27 +46,43 @@
 }
 
 /* category box background images */
-#people {
+#People {
   background-image: url("./images/people.jpg");
 }
 
-#vehicles {
+#Vehicles {
   background-image: url("./images/vehicles.jpg");
 }
 
-#planets {
+#Planets {
   background-image: url("./images/planets.jpg")
 }
 
-#spaceships {
+#Spaceships {
   background-image: url("./images/spaceships.jpeg");
 }
 
-#species {
+#Species {
   background-image: url("./images/species.jpg");
 }
 
-#films {
+#Films {
   background-image: url("./images/films.jpg");
 }
 
+/* category box text style */
+.box-text {
+  text-align: center;
+  margin: auto;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+/* information caption */
+.APIinfo {
+  margin-top: 40px;
+  padding-bottom: 40px;
+  font-size: 20px;
+  color: white;
+  bottom: 40px;
+}
