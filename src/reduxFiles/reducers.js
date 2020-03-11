@@ -20,6 +20,7 @@ export const fetchData = (state=dataInitialState, action={}) => {
         case REQUEST_SUCCESS:
             return {
                 ...state,
+                isPending: false,
                 data: action.payload
             }
         case REQUEST_FAILED:
