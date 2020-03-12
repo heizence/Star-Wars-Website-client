@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { requestData, requestSearch } from '../reduxFiles/actionCreators'
+import { requestData, requestSearch, requestAllURL } from '../reduxFiles/actionCreators'
 import { Link } from 'react-router-dom'
 
 const mapStateToProps = (state) => {
@@ -8,27 +8,31 @@ const mapStateToProps = (state) => {
         data: state.fetchData.data,
         isPending: state.fetchData.isPending,
         error: state.fetchData.error,
-        text: state.searchData.text
+        text: state.searchData.text,
+        allURL: state.fetchAllURL.url
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         onRequestData: (category) => dispatch(requestData(category)),
-        onSearchData: (text) => requestSearch(dispatch, text)
+        onSearchData: (text) => requestSearch(dispatch, text),
+        onRequestAllURL: () => requestAllURL(dispatch)
     }
 }
 
 class categoryPage extends Component {
     componentDidMount() {
         this.props.onRequestData(this.props.category)
+        //this.props.onRequestAllURL(this.props.category)
         
     }
     render() {        
         let category = this.props.category
         let data = this.props.data
-        console.log('Category : ', category)
-        console.log('Data fetched : ', data)
+        //console.log('Category : ', category)
+        //console.log('Data fetched : ', data)
+        //console.log('All URL fetched : ', this.props.allURL)
         
         return (   
             <div className="main">
@@ -55,7 +59,7 @@ class categoryPage extends Component {
                 <div className="category-container">
                 {data.map((element, index) => 
                     element.name ? 
-                    <Link to={`${category}/${element.name.split('/').join('_')}`} key={index} style={{textDecoration: 'none', color: 'white'}}>
+                    <Link to={`${category}/${element.name.split('/').join('&')}`} key={index} style={{textDecoration: 'none', color: 'white'}}>
                         <div className="category-box" id={element} key={index}>
                             <div className="box-text">{element.name}</div>
                         </div>
