@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { requestData, requestSearch, requestAllURL } from '../reduxFiles/actionCreators'
 import { Link } from 'react-router-dom'
 
+
 const mapStateToProps = (state) => {
     return {
         data: state.fetchData.data,
@@ -30,8 +31,9 @@ class categoryPage extends Component {
     render() {        
         let category = this.props.category
         let data = this.props.data
+
         //console.log('Category : ', category)
-        //console.log('Data fetched : ', data)
+        console.log('Data fetched : ', data)
         //console.log('All URL fetched : ', this.props.allURL)
         
         return (   
@@ -57,20 +59,21 @@ class categoryPage extends Component {
                     color: 'white', marginTop: '50px', fontSize: '30px', fontWeight: 'bold'                    
                 }}>Loading...</div> :
                 <div className="category-container">
-                {data.map((element, index) => 
+                {data.map((element, index) =>                     
                     element.name ? 
-                    <Link to={`${category}/${element.name.split('/').join('&')}`} key={index} style={{textDecoration: 'none', color: 'white'}}>
+                    <Link to={`${category}/${element.name.split('/').join('&')}?index=${index}`} key={index} style={{textDecoration: 'none', color: 'white'}}>
                         <div className="category-box" id={element} key={index}>
                             <div className="box-text">{element.name}</div>
                         </div>
                     </Link>
                     :
-                    <Link to={`${category}/${element.title.toLowerCase().split(' ').join('')}`} key={index} style={{textDecoration: 'none', color: 'white'}}>
+                    <Link to={`${category}/${element.title.toLowerCase().split(' ').join('')}?index=${index}`} key={index} style={{textDecoration: 'none', color: 'white'}}>
                         <div className="category-box" id={element} key={index}>
                             <div className="box-text">{element.title}</div>
                         </div>
                     </Link>
                 )}
+                
                 </div>
                 }  
                 </div>      
