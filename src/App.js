@@ -10,7 +10,7 @@ function App() {
     <div>
       <Route path="/" exact component={MainPage}/>
       <Route path="/:category" exact render={({ match }) => <CategoryPage category={match.params.category}/>} />
-      <Route path="/:category/:info" exact render={({ match }) => <EachDataPage match={match.params}/>} />
+      <Route path="/:category/:info" exact render={({ match, location }) => <EachDataPage match={match.params} location={location}/>} />
     </div>
   );
 }
