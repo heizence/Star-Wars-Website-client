@@ -58,7 +58,7 @@
   background-image: url("./images/planets.jpg")
 }
 
-#Spaceships {
+#Starships {
   background-image: url("./images/spaceships.jpeg");
 }
 
@@ -85,4 +85,21 @@
   font-size: 20px;
   color: white;
   bottom: 40px;
+}
+
+/* contents-box style */
+.contents-box {
+  font-size: 20px;
+  width: 500px;
+  min-height: 70%;
+  margin: auto;
+  border-width: 2px;
+  border-color: yellow;
+  color: white;
+  background-color: #61614d;
+  text-align: left;
+}
+
+.contents-tag {
+  margin-bottom: 10px;
 }
