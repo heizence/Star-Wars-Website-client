@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 import '../App.css';
 
-const categories = [ "People", "Vehicles", "Planets", "Spaceships", "Species", "Films"]
+const categories = [ "People", "Vehicles", "Planets", "Starships", "Species", "Films"]
 
 function mainPage() {
   return (
@@ -18,12 +18,14 @@ function mainPage() {
       <div className="category-container">       
         {categories.map((element, index) => 
             <Link to={`/${element.toLowerCase()}`} key={index} style={{textDecoration: 'none', color: 'white'}}>
-                <div className="category-box" id={element} key={index}>{element}</div>
+                <div className="category-box" id={element} key={index}>
+                <div className="box-text">{element}</div>
+                </div>
             </Link>
         )}
       </div>      
 
-      <div style={{color: 'white', fontSize: '20px', marginTop: '40px', paddingBottom: '40px'}}>
+      <div className="APIinfo">
       Informations are provided by Star Wars API. If you would like to know about Star Wars API, 
       visit <a href="https://swapi.co" target="blank">https://swapi.co</a>
       </div>
