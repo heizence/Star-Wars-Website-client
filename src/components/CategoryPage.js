@@ -1,32 +1,27 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { requestData, requestSearch, requestAllURL } from '../reduxFiles/actionCreators'
+import { requestData, requestSearch } from '../reduxFiles/actionCreators'
 import { Link } from 'react-router-dom'
-
 
 const mapStateToProps = (state) => {
     return {
         data: state.fetchData.data,
         isPending: state.fetchData.isPending,
         error: state.fetchData.error,
-        text: state.searchData.text,
-        allURL: state.fetchAllURL.url
+        text: state.searchData.text
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onRequestData: (category) => dispatch(requestData(category)),
-        onSearchData: (text) => requestSearch(dispatch, text),
-        onRequestAllURL: () => requestAllURL(dispatch)
+        onRequestData: (category, index) => dispatch(requestData(category, index)),
+        onSearchData: (text) => requestSearch(dispatch, text)
     }
 }
 
 class categoryPage extends Component {
     componentDidMount() {
-        this.props.onRequestData(this.props.category)
-        //this.props.onRequestAllURL(this.props.category)
-        
+        this.props.onRequestData(this.props.category, 1)
     }
     render() {        
         let category = this.props.category
@@ -61,7 +56,7 @@ class categoryPage extends Component {
                 <div className="category-container">
                 {data.map((element, index) =>                     
                     element.name ? 
-                    <Link to={`${category}/${element.name.split('/').join('&')}?index=${index}`} key={index} style={{textDecoration: 'none', color: 'white'}}>
+                    <Link to={`${category}/${element.name.split('/').join('&')}?index=${index+1}`} key={index} style={{textDecoration: 'none', color: 'white'}}>
                         <div className="category-box" id={element} key={index}>
                             <div className="box-text">{element.name}</div>
                         </div>
