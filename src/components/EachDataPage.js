@@ -1,74 +1,24 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import { requestData, requestAllURL } from '../reduxFiles/actionCreators'
-import { useLocation } from 'react-router-dom'
-
-const useQuery = () => {
-    return new URLSearchParams(useLocation().search);
-}
-
-const mapStateToProps = (state) => {
-    return {
-        data: state.fetchData.data,
-        isPending: state.fetchData.isPending,
-        error: state.fetchData.error,
-
-        allURL: state.fetchAllURL.url,
-        isURLPending: state.fetchAllURL.isPending,
-        URLerror: state.fetchAllURL.error,
-
-        dataByUrl: state.requestByURL.data
-    }
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onRequestData: (category) => dispatch(requestData(category)),
-        onRequestAllURL: () => requestAllURL(dispatch)
-    }
-}
+import { serverAddress } from '../serverAddress'
 
 class eachDataPage extends Component {
     constructor() {
         super()
 
         this.state = {
-            dataToRender: [],
+            data: undefined,
             isPending: true
         }
-    }
-
-    filterData = (data, name) => {
-        return data.filter((element) => {
-            return (element.name === name || element.title === name) 
-        })
-    }
-    
-    renderText = (str) => {
-        let urlData = this.props.allURL
-        // console.log('renderText 확인 : ', str)
-        if (str.slice(0, 5) === 'https') {    
-            let category = str.split('/')[4]
-            //console.log('category 확인 : ', category)
-            //console.log('renderText 확인 : ', urlData[category][str])
-            return urlData[category][str]
-        }
-        else {            
-            //console.log('renderText 확인 : ', str)
-            return str
-        }        
     }
     
     renderData = (object) => {        
         return Object.keys(object).map((key, index) => {
-            //console.log('key : ',key,',', object[key].slice(0, 5))
             if (Array.isArray(object[key])) {
                 return (
                     <div key={index}>{key} :
                     {object[key].map((element, index2) => {
-                        //console.log('renderText 실행 : ', this.renderText(element))
                         return (
-                        <div key={index2} className="contents-tag">{this.renderText(element)}</div>
+                        <div key={index2} className="contents-tag">{element}</div>
                         )
                     })}
                     </div>
@@ -76,27 +26,26 @@ class eachDataPage extends Component {
             }
             else {
                 return (
-                <div key={index} className="contents-tag">{key} : {this.renderText(object[key])}</div>
+                <div key={index} className="contents-tag">{key} : {object[key]}</div>
                 )
             }
         })
     }
 
     componentDidMount() {
-        this.props.onRequestData(this.props.match.category)
-        this.props.onRequestAllURL(this.props.category)
+        fetch(`${serverAddress}/get/eachdata?category=${this.props.match.category}&index=${this.props.location.search.slice(-1)}`)
+        .then(res => res.json())
+        .then(json => {            
+            this.setState({ data: json})
+        })
+        .catch(err => console.log(err))
     }
     
     render() {
         // in case there is '/' in a name   ex) TIE/LN starfighter
         let info = this.props.match.info.split('&').join('/')
-        let filteredData = this.filterData(this.props.data, info)
-        console.log('match 확인 : ', this.props.match)
-        console.log('query 확인 : ', this.props.location.search)
-        //console.log('데이터 확인 : ', this.props.data)
-        //console.log('걸러진 데이터 확인 : ', filteredData[0])
-        //console.log('state 확인 : ', this.state.dataToRender)
-        //console.log('URL 확인 : ', this.props.allURL)
+        console.log('state 데이터 확인 : ' , this.state.data)
+        let dataToRender = this.state.data
         
         return (
             <div className="main">
@@ -105,13 +54,15 @@ class eachDataPage extends Component {
                     width="400" alt=""></img>
                     <h1 style={{color: 'white', fontSize: '50px'}}>{info}</h1>   
                     <div>
-                    <div className="contents-box">
-                        {filteredData[0] ?                             
-                            this.renderData(filteredData[0]) :
-                            <div>Loading...</div>
-                        }
-                    </div>   
-                    </div>          
+                        {dataToRender ? 
+                        <div className="contents-box">                    
+                            <div>{this.renderData(dataToRender)}</div>
+                        </div> :
+                        <div style={{
+                            color: 'white', marginTop: '50px', fontSize: '30px', fontWeight: 'bold'                    
+                        }}>Loading...</div>
+                        }       
+                    </div>
                 </div>
 
                 <div className="APIinfo">
@@ -124,4 +75,4 @@ class eachDataPage extends Component {
     
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(eachDataPage);
+export default eachDataPage;
