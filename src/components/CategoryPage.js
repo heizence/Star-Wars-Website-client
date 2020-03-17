@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { requestData, requestSearch } from '../reduxFiles/actionCreators'
 import { Link } from 'react-router-dom'
+import GoBackButton from './GoBackButton'
 
 const mapStateToProps = (state) => {
     return {
@@ -23,16 +24,31 @@ class categoryPage extends Component {
     componentDidMount() {
         this.props.onRequestData(this.props.category, 1)
     }
+
+    searchDataAndRender(text) {
+        let data = this.props.data.filter(element => {
+            let str = element.name || element.title
+            return str.includes(text)
+        })
+        console.log('검색된 데이터 : ', data)
+        return data
+    }
+    
     render() {        
         let category = this.props.category
-        let data = this.props.data
+        let data
+        if (this.props.text) {
+            data = this.searchDataAndRender(this.props.text)
+        } 
+        else {
+            data = this.props.data
+        } 
 
-        //console.log('Category : ', category)
         console.log('Data fetched : ', data)
-        //console.log('All URL fetched : ', this.props.allURL)
         
         return (   
             <div className="main">
+            <div style={{minHeight: '85vh'}}>
                 <div style={{paddingTop: '50px'}}>
                     <img src="https://upload.wikimedia.org/wikipedia/en/thumb/3/36/SW_opening_crawl_logo.svg/1024px-SW_opening_crawl_logo.svg.png"
                     width="400" alt=""></img>
@@ -46,6 +62,7 @@ class categoryPage extends Component {
                         console.log('redux text state check: ', this.props.text)
                         this.props.onSearchData(e.target.value)
                     }}/>
+                    <GoBackButton text='Go back to Main'/>
                 </div>
 
                 <div>                          
@@ -68,11 +85,10 @@ class categoryPage extends Component {
                         </div>
                     </Link>
                 )}
-                
                 </div>
                 }  
-                </div>      
-                
+                </div>    
+                </div>  
                 <div className="APIinfo">
                 Informations are provided by Star Wars API. If you would like to know about Star Wars API, 
                 visit <a href="https://swapi.co" target="blank">https://swapi.co</a>

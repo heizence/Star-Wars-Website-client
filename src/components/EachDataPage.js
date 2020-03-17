@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import GoBackButton from './GoBackButton'
 import { serverAddress } from '../serverAddress'
 
 class eachDataPage extends Component {
@@ -33,7 +34,7 @@ class eachDataPage extends Component {
     }
 
     componentDidMount() {
-        fetch(`${serverAddress}/get/eachdata?category=${this.props.match.category}&index=${this.props.location.search.slice(-1)}`)
+        fetch(`${serverAddress}/get/eachdata?category=${this.props.match.category}&name=${this.props.match.info}`)
         .then(res => res.json())
         .then(json => {            
             this.setState({ data: json})
@@ -43,16 +44,19 @@ class eachDataPage extends Component {
     
     render() {
         // in case there is '/' in a name   ex) TIE/LN starfighter
+        console.log('match 확인 : ', this.props.match)
         let info = this.props.match.info.split('&').join('/')
         console.log('state 데이터 확인 : ' , this.state.data)
         let dataToRender = this.state.data
         
         return (
             <div className="main">
+            <div style={{minHeight: '85vh'}}>
                 <div style={{paddingTop: '50px'}}>
                     <img src="https://upload.wikimedia.org/wikipedia/en/thumb/3/36/SW_opening_crawl_logo.svg/1024px-SW_opening_crawl_logo.svg.png"
                     width="400" alt=""></img>
                     <h1 style={{color: 'white', fontSize: '50px'}}>{info}</h1>   
+                    <GoBackButton text="Go Back to category" address={this.props.match.category}/>
                     <div>
                         {dataToRender ? 
                         <div className="contents-box">                    
@@ -63,6 +67,7 @@ class eachDataPage extends Component {
                         }}>Loading...</div>
                         }       
                     </div>
+                </div>
                 </div>
 
                 <div className="APIinfo">
