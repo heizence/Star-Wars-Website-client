@@ -9,9 +9,9 @@ import logger from 'redux-logger'
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import { fetchData, searchData, fetchAllURL } from './reduxFiles/reducers'
+import { fetchData, searchData } from './reduxFiles/reducers'
 
-const rootReducer = combineReducers({ fetchData, searchData, fetchAllURL })
+const rootReducer = combineReducers({ fetchData, searchData })
 const store = createStore(rootReducer, applyMiddleware(logger, thunkMiddleWare))
 
 ReactDOM.render(
