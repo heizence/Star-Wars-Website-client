@@ -2,6 +2,7 @@ import { REQUEST_PENDING, REQUEST_SUCCESS, REQUEST_FAILED, SEARCH
 } from './actions'
 
 export const requestData = (category, index) => (dispatch) => {
+    console.log('actionCreater : ', `https://swapi.co/api/${category}/?page=${index}&format=json`)
     dispatch({ type: REQUEST_PENDING })
     fetch(`https://swapi.co/api/${category}/?page=${index}&format=json`)
     .then(res => res.json())
