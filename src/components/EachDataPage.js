@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import GoBackButton from './GoBackButton'
-import { serverAddress } from '../serverAddress'
 
 class eachDataPage extends Component {
     constructor() {
@@ -8,22 +7,30 @@ class eachDataPage extends Component {
 
         this.state = {
             data: undefined,
-            isPending: true
+            error: false
         }
     }
     
     renderData = (object) => {        
         return Object.keys(object).map((key, index) => {
             if (Array.isArray(object[key])) {
-                return (
-                    <div key={index}>{key} :
-                    {object[key].map((element, index2) => {
-                        return (
-                        <div key={index2} className="contents-tag">{element}</div>
-                        )
-                    })}
-                    </div>
-                )
+                if (object[key].length > 0) {
+                    return (
+                        <div key={index}>{key} :
+                        {object[key].map((element, index2) => {
+                            return (
+                            <div key={index2} className="contents-tag">{element}</div>
+                            )
+                        })}
+                        </div>
+                    )
+                }
+                else {
+                    return (
+                    <div key={index} className="contents-tag">{key} : none</div>
+                    )
+                }
+                
             }
             else {
                 return (
@@ -34,29 +41,45 @@ class eachDataPage extends Component {
     }
 
     componentDidMount() {
-        fetch(`${serverAddress}/get/eachdata?category=${this.props.match.category}&name=${this.props.match.info}`)
+        //let index = this.props.location.search.split('=')[1]
+        let indexArr = this.props.location.search.split('&')
+
+        let eachDataIndex = indexArr[0].split('=')[1]
+        //let categoryPageIndex = indexArr[1].split('=')[1]
+
+        let match = this.props.match
+
+        //console.log('category 확인(EachDataPage) : ', match, this.props.location)
+        //console.log('index 확인(EachDataPage) : ', eachDataIndex, categoryPageIndex)
+
+        fetch(`https://swapi.co/api/${match.category}/${eachDataIndex}/?format=json`)
         .then(res => res.json())
-        .then(json => {            
-            this.setState({ data: json})
+        .then(json => {      
+            console.log(json)      
+            this.setState({ data: json })
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+            console.log(err)
+            this.setState({ error: true })
+        })   
     }
     
     render() {
         // in case there is '/' in a name   ex) TIE/LN starfighter
-        console.log('match 확인 : ', this.props.match)
         let info = this.props.match.info.split('&').join('/')
-        console.log('state 데이터 확인 : ' , this.state.data)
         let dataToRender = this.state.data
+
+        let indexArr = this.props.location.search.split('&')
+        let categoryPageIndex = indexArr[1].split('=')[1]
         
         return (
             <div className="main">
-            <div style={{minHeight: '85vh'}}>
+            <div style={{minHeight: '80vh'}}>
                 <div style={{paddingTop: '50px'}}>
                     <img src="https://upload.wikimedia.org/wikipedia/en/thumb/3/36/SW_opening_crawl_logo.svg/1024px-SW_opening_crawl_logo.svg.png"
                     width="400" alt=""></img>
                     <h1 style={{color: 'white', fontSize: '50px'}}>{info}</h1>   
-                    <GoBackButton text="Go Back to category" address={this.props.match.category}/>
+                    <GoBackButton text="Go Back to category" address={this.props.match.category} index={categoryPageIndex}/>
                     <div>
                         {dataToRender ? 
                         <div className="contents-box">                    
@@ -64,7 +87,7 @@ class eachDataPage extends Component {
                         </div> :
                         <div style={{
                             color: 'white', marginTop: '50px', fontSize: '30px', fontWeight: 'bold'                    
-                        }}>Loading...</div>
+                        }}>{this.state.error ? 'Error! Please try later' : 'Loading...'}</div>
                         }       
                     </div>
                 </div>
@@ -77,7 +100,6 @@ class eachDataPage extends Component {
             </div>
         )
     }
-    
 }
 
 export default eachDataPage;
