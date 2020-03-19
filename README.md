@@ -17,7 +17,7 @@ React, Redux, Redux-middleware, React-router
 
 ```bash
 git clone https://github.com/heizence/Star-Wars-website
-````
+```
 
 2.Install 
 
