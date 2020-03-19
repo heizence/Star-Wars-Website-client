@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 import '../App.css';
 
-const categories = [ "People", "Vehicles", "Planets", "Starships", "Species", "Films"]
-
 function mainPage() {
+  const categories = [ "People", "Vehicles", "Planets", "Starships", "Species", "Films"]
+  
   return (
     
     <div className="main">
@@ -17,8 +17,10 @@ function mainPage() {
 
       <div className="category-container">       
         {categories.map((element, index) => 
-            <Link to={`/${element.toLowerCase()}`} key={index} style={{textDecoration: 'none', color: 'white'}}>
-                <div className="category-box" id={element} key={index}>
+            <Link to={`/${element.toLowerCase()}?page=1`} key={index} style={{textDecoration: 'none', color: 'white'}}>
+                <div className="category-box" id={element} key={index} onClick={() => {
+                  console.log('Category box clicked : ', element)
+                }}>
                 <div className="box-text">{element}</div>
                 </div>
             </Link>
