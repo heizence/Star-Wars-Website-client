@@ -90,13 +90,11 @@
 
 /* contents-box style */
 .contents-box {
-  font-size: 20px;
-  width: 500px;
-  min-height: 70%;
-  margin: auto;
-  border-width: 2px;
-  border-color: yellow;
-  color: white;
+  font-size: 20px; color: white;
+  width: 600px;  min-height: 70%;
+  margin: auto;  margin-top: 50px;
+  border-style: solid;  border-width: 1.5px;  border-color: yellow; border-radius: 10px;
+  padding: 40px;
   background-color: #61614d;
   text-align: left;
 }
@@ -118,5 +116,26 @@
 }
 
 #back-button:hover {
+  cursor: pointer;
+}
+
+/* page buttons */
+.page-button, .page-button-selected {
+  width: 40px;
+  height: 40px;
+  color: white;
+  margin: 0px 10px 0px 10px;
+  font-size: 20px; 
+  font-weight: bold;
+  background: none; 
+  border-color: yellow; 
+  border-radius: 5px;
+}
+
+.page-button-selected {
+  background-color: #61614d;
+}
+
+.page-button:hover {
   cursor: pointer;
 }
