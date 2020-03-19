@@ -7,7 +7,7 @@ const GoBackButton = (props) => {
         addr = '/'
     }
     else {
-        addr = `/${props.address}`
+        addr = `/${props.address}?page=${props.index}`
     }
     return (
         <div>
