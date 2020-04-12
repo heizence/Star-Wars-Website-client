@@ -4,8 +4,7 @@ import { REQUEST_PENDING, REQUEST_SUCCESS, REQUEST_FAILED, SEARCH
 const dataInitialState = {
     isPending: false,
     data: [],
-    error: '',
-    temp: []
+    error: ''
 }
 
 const searchInitialState = {
