@@ -18,7 +18,7 @@
   align-items: center;
   justify-content: center;
   width: 70%;
-  max-width: 800px;
+  max-width: 1000px;
   min-height: 70%;
   margin: auto;
   margin-top: 50px;
@@ -47,27 +47,27 @@
 }
 
 /* category box background images */
-#People {
+#Character {
   background-image: url("./images/people.jpg");
 }
 
-#Vehicles {
+#Vehicle {
   background-image: url("./images/vehicles.jpg");
 }
 
-#Planets {
+#Planet {
   background-image: url("./images/planets.jpg")
 }
 
-#Starships {
+#Starship {
   background-image: url("./images/spaceships.jpeg");
 }
 
-#Species {
+#Specie {
   background-image: url("./images/species.jpg");
 }
 
-#Films {
+#Film {
   background-image: url("./images/films.jpg");
 }
 
@@ -81,11 +81,15 @@
 
 /* information caption */
 .APIinfo {
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 40px;
   padding-bottom: 40px;
   font-size: 20px;
   color: white;
   vertical-align: bottom;
+  text-align: center;
+  width: 70%
 }
 
 /* contents-box style */
