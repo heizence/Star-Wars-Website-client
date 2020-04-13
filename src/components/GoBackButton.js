@@ -12,7 +12,7 @@ const GoBackButton = (props) => {
     return (
         <div>
             <Link to={addr}>
-                <button id='back-button'>{props.text}</button>
+                <button id='back-button' onClick={props.onClick}>{props.text}</button>
             </Link>
         </div>
     )

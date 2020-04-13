@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import '../App.css';
 
 function mainPage() {
-  const categories = [ "People", "Vehicles", "Planets", "Starships", "Species", "Films"]
+  const categories = [ "Character", "Film", "Planet", "Specie", "Starship", "Vehicle"]
   
   return (
     
@@ -17,7 +17,7 @@ function mainPage() {
 
       <div className="category-container">       
         {categories.map((element, index) => 
-            <Link to={`/${element.toLowerCase()}?page=1`} key={index} style={{textDecoration: 'none', color: 'white'}}>
+            <Link to={`/${element}?categorypage=1`} key={index} style={{textDecoration: 'none', color: 'white'}}>
                 <div className="category-box" id={element} key={index} onClick={() => {
                   console.log('Category box clicked : ', element)
                 }}>

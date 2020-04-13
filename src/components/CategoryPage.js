@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { requestData, requestSearch } from '../reduxFiles/actionCreators'
 import { Link } from 'react-router-dom'
 import GoBackButton from './GoBackButton'
+import InfoCaption from './InfoCaption'
 
 const mapStateToProps = (state) => {
     return {
@@ -15,43 +16,37 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onRequestData: (category, index) => dispatch(requestData(category, index)),
+        onRequestData: (category, method) => dispatch(requestData(category, method)),
         onSearchData: (text) => requestSearch(dispatch, text)
     }
 }
 
 class categoryPage extends Component {    
-    constructor() {
-        super()
-        this.state ={
-            pageMoved: false
-        }
-    }
+    // constructor() {
+    //     super()
+    //     this.state ={
+    //         pageMoved: false
+    //     }
+    // }
 
     searchDataAndRender(text) {
         let data = this.props.data.filter(element => {
-            let str = element.name || element.title
+            let str = element
             let txt = new RegExp(text, "i")
-            console.log('reg ignoreCase applied : ', txt.ignoreCase)
+            //console.log('reg ignoreCase applied : ', txt.ignoreCase)
             return txt.test(str)
         })
         return data
     }
 
     renderPageButtons(category) {
-        const numberOfPages = {
-            people: 9,
-            vehicles: 4,
-            planets: 7,
-            starships: 4,
-            species: 4,
-            films: 1
-        }
+        const numberOfPages = this.props.data.length
     
         let pageIndex = this.props.location.search.split('=')[1]  
         let indexArr = []
-       
-        for (let i=1; i<=numberOfPages[category]; i++) {
+        
+        // Render 12 items per a page
+        for (let i=1; i<=Math.round(numberOfPages/12); i++) {
             indexArr.push(i)
         }
 
@@ -62,7 +57,6 @@ class categoryPage extends Component {
                     return (
                         <Link to={`${category}?page=${element}`} key={index}>
                             <button className='page-button' onClick={() => {
-                                this.props.onRequestData(category, element)
                                 this.props.onSearchData('')
                             }}>{element}</button>
                         </Link>
@@ -73,30 +67,35 @@ class categoryPage extends Component {
                         <button className='page-button-selected' key={index}>{element}</button>
                     )
                 }
-                return ''  // to prevent warning message
+                return ''  // To prevent warning message
             })}
             </div>
         )
     }
 
     componentDidMount() {
-        let index = this.props.location.search.split('=')[1]
         //console.log('index 확인(CategoryPage) : ', index)
-        this.props.onRequestData(this.props.category, index)
+        //console.log('category 확인(CategoryPage) : ', this.props.category)
+        this.props.onRequestData(this.props.category, 'getnames')
     }
 
     render() {        
+        console.log('data 확인(categoryPage) : ' ,this.props.data)
+
+        let pageIndex = this.props.location.search.split('=')[1]
         let category = this.props.category
         let data
+        
         if (this.props.text) {
             data = this.searchDataAndRender(this.props.text)
         } 
-        else {
-            data = this.props.data
+        // Set index only data type is Array, especially moved back from EachDataPage. 
+        else if (Array.isArray(this.props.data)) {
+            // Render 12 items per a page
+            let startIndex = (pageIndex-1) * 12
+            let endIndex = pageIndex * 12
+            data = this.props.data.slice(startIndex, endIndex)
         } 
-
-        //console.log('Category 확인(CategoryPage) : ', category)
-        //console.log('Redux State Data(CategoryPage) : ', this.props.data)
         
         return (   
             <div className="main">
@@ -112,7 +111,6 @@ class categoryPage extends Component {
                         borderRadius: '5px'
                     }}
                     onChange={(e) => {
-                        console.log('redux text state check: ', this.props.text)
                         this.props.onSearchData(e.target.value)
                     }}/>
                     <GoBackButton text='Go back to Main'/>
@@ -122,29 +120,19 @@ class categoryPage extends Component {
                     {this.props.isPending ? 
                     <div style={{
                         color: 'white', marginTop: '50px', fontSize: '30px', fontWeight: 'bold'                    
-                    }}>{this.props.error ? "Error! Please try later" : "Loading..."}</div> :
+                    }}>{this.props.error ? "Error! Please try again later" : "Loading..."}</div> :
                     
                     <div>
                         <div className="category-container">
-                        {data.map((element, index) =>                                     
-                            element.name ? 
-                            <Link to={`${category}/${element.name.split('/').join('&')}?index=${element.url.split('/')[5]}&categorypageindex=${this.props.location.search.split('=')[1]}`} 
+                        {data.map((element, index) =>  
+                            <Link to={`${category}/${element.split('/').join('&')}?categorypage=${pageIndex}`} 
                             key={index} style={{textDecoration: 'none', color: 'white'}}>
                                 <div className="category-box" id={element} key={index} onClick={() => {
                                     this.props.onSearchData('')
                                 }}>
-                                    <div className="box-text">{element.name}</div>
+                                    <div className="box-text">{element}</div>
                                 </div>
-                            </Link>
-                            :
-                            <Link to={`${category}/${element.title}?index=${element.url.split('/')[5]}&categorypageindex=${this.props.location.search.split('=')[1]}`} 
-                            key={index} style={{textDecoration: 'none', color: 'white'}}>
-                                <div className="category-box" id={element} key={index} onClick={() => {
-                                    this.props.onSearchData('')
-                                }}>
-                                    <div className="box-text">{element.title}</div>
-                                </div>
-                            </Link>
+                            </Link>                            
                         )}                    
                         </div>
                         
@@ -157,10 +145,7 @@ class categoryPage extends Component {
                 </div>    
             </div>  
 
-            <div className="APIinfo">
-            Informations are provided by Star Wars API. If you would like to know about Star Wars API, 
-            visit <a href="https://swapi.co" target="blank">https://swapi.co</a>
-            </div>
+            <InfoCaption />
 
             </div>
         )
