@@ -7,7 +7,91 @@
   text-align: center;
   flex-direction: column;
   min-height: 100vh;
-  background-image: url("http://zaferaydin.info/wp-content/uploads/2019/11/star-wars-backgrounds-1920x1080-space-wallpaper-cave.jpg");
+  background-image: url("./images/MainBackgrounds.jpg");
+}
+
+/* title caption */
+.titleCaption {
+  color: white;
+  font-size: 50px;
+  margin-bottom: 50px;
+}
+
+/* navigation bar */
+#navbar {
+  padding: 20px 30px 20px 30px;
+  display: flex;
+  justify-content: space-between;
+  background-color: black;
+  /* background-image: url("./images/MainBackgrounds.jpg"); */
+  position: sticky;
+  top: 0;
+}
+
+#navbar-text {
+  width: auto;
+}
+
+#main-logo:hover {
+  cursor: pointer;
+}
+
+ul {
+  padding-top: 10px;
+  display: inline-block;  
+}
+
+li {
+  display: inline-block;
+  margin: 5px 20px 5px 20px;
+  font-size: 20px;
+  color: rgb(207, 207, 207);
+  font-weight: bold;
+}
+
+a {
+  text-decoration: none;
+  color: rgb(207, 207, 207);
+}
+
+li:hover {
+  cursor: pointer;
+}
+
+/* Sign in form */
+.signin-label {
+  color: white;
+  font-size: 25px;
+}
+.signin-form {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 300px;
+  height: 35px;
+  border-radius: 5px;
+  font-size: 20px;
+}
+
+#signin-button {
+  margin-top: 20px;
+  width: 100px;
+  height: 40px;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  background: none;
+  border: yellow 2px solid;
+  border-radius: 5px;
+}
+
+#signin-button:hover {
+  cursor: pointer;
+}
+
+.signin-text {
+  margin-top: 10px;
+  font-size: 20px;
+  color: white;
 }
 
 /* category-container */
@@ -89,7 +173,7 @@
   color: white;
   vertical-align: bottom;
   text-align: center;
-  width: 70%
+  width: 70%;
 }
 
 /* contents-box style */
@@ -143,3 +227,16 @@
 .page-button:hover {
   cursor: pointer;
 }
+
+/* user login */
+@media all and (min-width: 480px) {
+  .Login {
+    padding: 60px 0;
+  }
+
+  .Login form {
+    margin: 0 auto;
+    max-width: 320px;
+  }
+}
+
