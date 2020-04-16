@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import GoBackButton from './GoBackButton'
 import { requestData } from '../reduxFiles/actionCreators'
 import InfoCaption from './InfoCaption'
+import Navbar from './Navbar'
 
 const mapStateToProps = (state) => {
     return {
@@ -67,10 +68,9 @@ class eachDataPage extends Component {
         //console.log('pageIndex(EachDataPage) : ', pageIndex)
         return (
             <div className="main">
+            <Navbar />
             <div style={{minHeight: '80vh'}}>
-                <div style={{paddingTop: '50px'}}>
-                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/3/36/SW_opening_crawl_logo.svg/1024px-SW_opening_crawl_logo.svg.png"
-                    width="400" alt=""></img>
+                <div style={{paddingTop: '30px'}}>
                     <h1 style={{color: 'white', fontSize: '50px'}}>{name}</h1>   
                     <GoBackButton text="Go Back to category" address={this.props.match.category} index={pageIndex} 
                     onClick={() => this.props.onRequestData(this.props.match.category, 'getnames')}/>

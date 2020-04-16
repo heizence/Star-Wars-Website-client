@@ -4,6 +4,7 @@ import { requestData, requestSearch } from '../reduxFiles/actionCreators'
 import { Link } from 'react-router-dom'
 import GoBackButton from './GoBackButton'
 import InfoCaption from './InfoCaption'
+import Navbar from './Navbar'
 
 const mapStateToProps = (state) => {
     return {
@@ -99,11 +100,9 @@ class categoryPage extends Component {
         
         return (   
             <div className="main">
-            
+            <Navbar />
             <div style={{minHeight: '85vh'}}>
                 <div style={{paddingTop: '50px'}}>
-                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/3/36/SW_opening_crawl_logo.svg/1024px-SW_opening_crawl_logo.svg.png"
-                    width="400" alt=""></img>
                     <h1 style={{color: 'white'}}>{category.toUpperCase()}</h1>
                     <h2 style={{color: 'white'}}>Search any {category} you'd like to find</h2>
                     <input style={{

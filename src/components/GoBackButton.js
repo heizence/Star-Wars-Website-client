@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 
 const GoBackButton = (props) => {
+    console.log('Goback button executed : ' , props)
     let addr
     if (!props.address) {
         addr = '/'
