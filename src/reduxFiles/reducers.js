@@ -1,4 +1,5 @@
-import { REQUEST_PENDING, REQUEST_SUCCESS, REQUEST_FAILED, SEARCH
+import { REQUEST_PENDING, REQUEST_SUCCESS, REQUEST_FAILED, SEARCH, 
+    LOGGING_IN, LOGGING_OUT, PAGE_MOVE
 } from './actions'
 
 const dataInitialState = {
@@ -9,6 +10,12 @@ const dataInitialState = {
 
 const searchInitialState = {
     text: ''
+}
+
+const userInitialState = {
+    isLoggedIn: false,
+    username: '',
+    pageBeforeLogIn: ''
 }
 
 export const fetchData = (state=dataInitialState, action={}) => {
@@ -44,3 +51,23 @@ export const searchData = (state=searchInitialState, action={}) => {
             return state
     }
 } 
+
+export const handleUser = (state=userInitialState, action={}) => {
+    switch(action.type) {
+        case LOGGING_IN:
+            return {
+                isLoggedIn: true,
+                username: action.payload
+            }
+        case LOGGING_OUT:
+            return {
+                isLoggedIn: false
+            }
+        case PAGE_MOVE:
+            return {
+                pageBeforeLogIn: action.payload
+            }
+        default:
+            return state
+    }
+}

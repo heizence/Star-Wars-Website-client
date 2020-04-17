@@ -1,4 +1,5 @@
-import { REQUEST_PENDING, REQUEST_SUCCESS, REQUEST_FAILED, SEARCH
+import { REQUEST_PENDING, REQUEST_SUCCESS, REQUEST_FAILED, SEARCH, 
+    LOGGING_IN, LOGGING_OUT, PAGE_MOVE
 } from './actions'
 import { serverAddress } from '../serverAddress'
 
@@ -8,8 +9,8 @@ export const requestData = (category, method, name) => (dispatch) => {
     dispatch({ type: REQUEST_PENDING })
 
     // if name exists, getdata request, or getnames request
-    let requestAddress = name ? `${serverAddress}/${method}?category=${category}&name=${name}`
-    : `${serverAddress}/${method}?category=${category}` 
+    let requestAddress = name ? `${serverAddress}/data/${method}?category=${category}&name=${name}`
+    : `${serverAddress}/data/${method}?category=${category}` 
     
     fetch(requestAddress)
     .then(res => res.json())
@@ -24,4 +25,18 @@ export const requestData = (category, method, name) => (dispatch) => {
 
 export const requestSearch = (dispatch, value) => {
     dispatch({ type: SEARCH, payload: value})
+}
+
+export const requestSignin = (username, dispatch) => {
+    dispatch({ type: LOGGING_IN, payload: username })
+}
+
+export const requestSignout = (dispatch) => {
+    dispatch({ type: LOGGING_OUT })
+}
+
+/* Save page address that visited just before login 
+to move to that page when logged in. */
+export const requestPagemove = (dispatch, pageAddress) => {
+    dispatch({ type: PAGE_MOVE, payload: pageAddress })
 }

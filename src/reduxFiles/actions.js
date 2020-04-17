@@ -6,11 +6,10 @@ export const REQUEST_FAILED = 'REQUEST_FAILED'
 // search
 export const SEARCH = 'SEARCH'
 
-export const REQUEST_URL_PENDING = 'REQUEST_URL_PENDING'
-export const REQUEST_URL_SUCCESS = 'REQUEST_URL_SUCCESS'
-export const REQUEST_URL_FAILED = 'REQUEST_URL_FAILED'
+// user login/logout
+export const LOGGING_IN = 'LOGGING_IN'
+export const LOGGING_OUT = 'LOGGING_OUT'
 
-// request each data from server
-export const REQUEST_EACH_DATA_PENDING = 'REQUEST_PENDING'
-export const REQUEST_EACH_DATA_SUCCESS = 'REQUEST_SUCCESS'
-export const REQUEST_EACH_DATA_FAILED = 'REQUEST_FAILED'
+/* Save page address that visited just before login 
+to move to that page when logged in. */
+export const PAGE_MOVE = 'PAGE_MOVING'    
