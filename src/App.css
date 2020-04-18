@@ -58,7 +58,7 @@ li:hover {
   cursor: pointer;
 }
 
-/* Sign in form */
+/* Sign in, Sign up form */
 .signin-label {
   color: white;
   font-size: 25px;
@@ -67,7 +67,7 @@ li:hover {
   margin-top: 10px;
   margin-bottom: 10px;
   max-width: 300px;
-  width: 70%;
+  width: 80%;
   height: 35px;
   border-radius: 5px;
   font-size: 20px;
@@ -89,6 +89,37 @@ li:hover {
 
 #signin-button:hover {
   cursor: pointer;
+  background-color: rgb(101, 102, 54);
+}
+
+#goback-button,
+#withdrawal-button {
+  width: 200px;
+  height: 60px;
+  margin: 10px 20px 10px 20px;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  background: none;
+  border-radius: 5px;
+}
+
+#goback-button {
+  border: #0004eef1 3px solid;
+}
+
+#withdrawal-button {
+  border: red 3px solid;
+}
+
+#goback-button:hover {
+  cursor: pointer;
+  background-color: #0400f8;
+}
+
+#withdrawal-button:hover {
+  cursor: pointer;
+  background-color: hsl(0, 59%, 45%);
 }
 
 .signin-text {
@@ -97,6 +128,12 @@ li:hover {
   color: white;
 }
 
+/* My page form */
+.mypage-text {
+  color: white;
+  font-size: 30px;
+  margin-bottom: 20px;
+}
 /* category-container */
 .category-container {
   display: flex;
