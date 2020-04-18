@@ -82,17 +82,16 @@ class Signup extends Component {
     .then(res => {
       console.log('res : ' , res)
       if (res.status === 200) {        
-        console.log('Signed Up!')
-        this.setState({ signedUp: true})    
+        window.alert('Signed Up!')
+        this.setState({ signedUp: true })    
       }
     })
     .catch(error => console.log(error))
   }
 
-
   render() {
-    if (this.props.signedUp) {
-      return <Redirect to='/signup' />
+    if (this.state.signedUp) {
+      return <Redirect to='/' />
     }
     else {
       return (
@@ -105,7 +104,7 @@ class Signup extends Component {
                 <Label className="signin-label" for="exampleEmail" sm={2}>Email</Label>
                 <Col sm={10}>
                   <Input className="signin-form" type="email" name="email" 
-                  id="exampleEmail" placeholder="email"
+                  id="exampleEmail" placeholder="email" autoComplete="off"                  
                   onChange={(e) => this.setState({ email: e.target.value })} />
                   <Button id="signin-button" style={{marginLeft: '30px'}}
                   onClick={() => this.checkUserInfo('email', this.state.email)}>Check</Button>
@@ -115,7 +114,7 @@ class Signup extends Component {
                 <Label className="signin-label" for="examplePassword" sm={2}>Username</Label>
                 <Col sm={10}>
                   <Input className="signin-form" type="text" name="username" 
-                  placeholder="username"
+                  placeholder="username" autoComplete="off"
                   onChange={(e) => this.setState({ username : e.target.value})} />
                   <Button id="signin-button" style={{marginLeft: '30px'}}
                   onClick={() => this.checkUserInfo('username', this.state.username)}>Check</Button>
@@ -125,7 +124,7 @@ class Signup extends Component {
                 <Label className="signin-label" for="examplePassword" sm={2}>Password</Label>
                 <Col sm={10}>
                   <Input className="signin-form" type="password" name="password" 
-                  id="examplePassword" placeholder="password"
+                  id="examplePassword" placeholder="password" autoComplete="off"
                   onChange={(e) => this.setState({ password: e.target.value })} />
                 </Col>
               </FormGroup>
@@ -133,7 +132,7 @@ class Signup extends Component {
                 <Label className="signin-label" for="examplePassword" sm={2}>Check Password</Label>
                 <Col sm={10}>
                   <Input className="signin-form" type="password" name="password" 
-                  id="examplePassword" placeholder="password"
+                  id="examplePassword" placeholder="password" autoComplete="off"
                   onChange={(e) => this.setState({ passwordCheck: e.target.value})} />
                 </Col>
               </FormGroup>
