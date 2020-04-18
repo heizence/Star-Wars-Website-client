@@ -28,12 +28,33 @@ class Signin extends Component {
     }
   }
 
-  fetchSignin = (email, password) => {
-    let reqBody = { email: email, password: password }
+  fetchSignin = () => {
+    if (this.state.email === '') {
+      window.alert('Enter your Email address.')
+      return
+    }
+    else if (this.state.password === '') {
+      window.alert('Enter your password.')
+      return
+    }
+    else {
+      let emailArr = this.state.email.split('')
+      if (!emailArr.includes('@') || !emailArr.includes('.')) {
+        window.alert('Incorrect Email form! Please enter your correct Email address.')
+        return
+      }
+    }
+    
+    let reqBody = { email: this.state.email, password: this.state.password }
+
     fetch(`${serverAddress}/user/signin`, 
     { 
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
       body: JSON.stringify(reqBody)      
     })
     .then(res => res.json())
@@ -44,10 +65,17 @@ class Signin extends Component {
       }
       else {
         window.alert('Logged in!')
-        this.props.onRequestSignin(data[0].username)
+        console.log('user info : ', data[0])
+        this.props.onRequestSignin(data[0])
       }
     })
     .catch(error => console.log(error))
+  }
+
+  pressEnter = (e, callback) => {
+    if (e.keyCode === 13) {
+      callback()
+    }
   }
 
   render() {
@@ -65,7 +93,7 @@ class Signin extends Component {
                 <Label className="signin-label" for="exampleEmail" sm={2}>Email</Label>
                 <Col sm={10}>
                   <Input className="signin-form" type="email" name="email" 
-                  id="exampleEmail" placeholder="email"
+                  id="exampleEmail" placeholder="email" autoComplete="off"
                   onChange={(e) => this.setState({ email: e.target.value})} />
                 </Col>
               </FormGroup>
@@ -73,13 +101,14 @@ class Signin extends Component {
                 <Label className="signin-label" for="examplePassword" sm={2}>Password</Label>
                 <Col sm={10}>
                   <Input className="signin-form" type="password" name="password" 
-                  id="examplePassword" placeholder="password"
-                  onChange={(e) => this.setState({ password: e.target.value})} />
+                  id="examplePassword" placeholder="password" autoComplete="off"
+                  onChange={(e) => this.setState({ password: e.target.value})}
+                  onKeyUp={(e) => this.pressEnter(e, this.fetchSignin)} />
                 </Col>
               </FormGroup>
               <FormGroup check row>
                 <Col sm={{ size: 10, offset: 2 }}>
-                  <Button id="signin-button" onClick={() => this.fetchSignin(this.state.email, this.state.password)}>Sign in</Button>
+                  <Button id="signin-button" onClick={() => this.fetchSignin()}>Sign in</Button>
                 </Col>
               </FormGroup>
             </Form>
