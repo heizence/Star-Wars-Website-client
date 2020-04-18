@@ -18,7 +18,8 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const fetchSignout = (props) => {
-  fetch(`${serverAddress}/user/signout`, { cors: 'no-cors'})
+  console.log('fetchsignout executed')
+  fetch(`${serverAddress}/user/signout`)
   .then(res => {
     console.log('res : ' , res)
     window.alert('Logged out!')
@@ -37,10 +38,10 @@ const NavigationBar = (props) => {
         <div id='navbar-text'>        
         <ul>
           {props.isLoggedIn ?
-            <li style={{color: 'yellow'}}>Mypage</li> : ''
+            <li style={{color: 'yellow'}}><Link to={'/mypage'}>My page</Link></li> : ''
           }
           {props.isLoggedIn ?           
-          <li onClick={() =>fetchSignout(props)}>Sign out</li> :
+          <li onClick={() => fetchSignout(props)}>Sign out</li> :
           <li><Link to={'/signin'}>Sign in</Link></li>
           }          
           <li><Link to={'/'}>Home</Link></li>
