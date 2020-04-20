@@ -52,15 +52,18 @@ class eachDataPage extends Component {
     componentDidMount() {
         let { category, name } = this.props.match
 
+        // Refactoring name
+        name = name.split('+').join(' ').split('&').join('/') 
         // In case there are names which include '/'. For example : TIE/LN starfighter
-        name = name.split('&').join('/')    
+
         //console.log('match/location 확인(EachDataPage) : ', this.props.match, this.props.location)
         this.props.onRequestData(category, 'getdata', name)
     }
     
     render() {
-        // In case there are names which include '/'. For example : TIE/LN starfighter
-        let name = this.props.match.name.split('&').join('/')
+        /* Refactoring name
+        split('&').join('/') is for names which include '/'. For example : TIE/LN starfighter */
+        let name = this.props.match.name.split('+').join(' ').split('&').join('/')
         let dataToRender = this.props.data
         let pageIndex = this.props.location.search.split('=')[1]
         
@@ -72,7 +75,7 @@ class eachDataPage extends Component {
             <div style={{minHeight: '80vh'}}>
                 <div style={{paddingTop: '30px'}}>
                     <h1 style={{color: 'white', fontSize: '50px'}}>{name}</h1>   
-                    <GoBackButton text="Go Back to category" address={this.props.match.category} index={pageIndex} 
+                    <GoBackButton text="Go Back to category" category={this.props.match.category} index={pageIndex} 
                     onClick={() => this.props.onRequestData(this.props.match.category, 'getnames')}/>
                     <div>
                         {!this.props.isPending ? 

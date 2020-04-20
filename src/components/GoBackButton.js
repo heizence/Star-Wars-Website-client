@@ -2,13 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 
 const GoBackButton = (props) => {
-    console.log('Goback button executed : ' , props)
+    console.log('goback button executed: ', props)
     let addr
-    if (!props.address) {
+
+    // Go back to main
+    if (!props.category) {
         addr = '/'
     }
+
+    // Go back to category page
     else {
-        addr = `/${props.address}?page=${props.index}`
+        addr = `/category/${props.category}?categorypage=${props.index}`
     }
     return (
         <div>

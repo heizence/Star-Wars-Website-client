@@ -34,7 +34,6 @@ class categoryPage extends Component {
         let data = this.props.data.filter(element => {
             let str = element
             let txt = new RegExp(text, "i")
-            //console.log('reg ignoreCase applied : ', txt.ignoreCase)
             return txt.test(str)
         })
         return data
@@ -75,13 +74,14 @@ class categoryPage extends Component {
     }
 
     componentDidMount() {
-        //console.log('index 확인(CategoryPage) : ', index)
-        //console.log('category 확인(CategoryPage) : ', this.props.category)
         this.props.onRequestData(this.props.category, 'getnames')
     }
 
     render() {        
-        console.log('data 확인(categoryPage) : ' ,this.props.data)
+        console.log('data 확인(categoryPage) : ')
+        console.log('is Pending? : ', Array.isArray(this.props.isPending))
+        console.log('is Array? : ', Array.isArray(this.props.data))
+        console.log(this.props.data)
 
         let pageIndex = this.props.location.search.split('=')[1]
         let category = this.props.category
@@ -116,7 +116,7 @@ class categoryPage extends Component {
                 </div>
 
                 <div>                          
-                    {this.props.isPending ? 
+                    {this.props.isPending || !Array.isArray(this.props.data) ? 
                     <div style={{
                         color: 'white', marginTop: '50px', fontSize: '30px', fontWeight: 'bold'                    
                     }}>{this.props.error ? "Error! Please try again later" : "Loading..."}</div> :
@@ -124,7 +124,7 @@ class categoryPage extends Component {
                     <div>
                         <div className="category-container">
                         {data.map((element, index) =>  
-                            <Link to={`${category}/${element.split('/').join('&')}?categorypage=${pageIndex}`} 
+                            <Link to={`/category/${category}/${element.split(' ').join('+').split('/').join('&')}?categorypage=${pageIndex}`} 
                             key={index} style={{textDecoration: 'none', color: 'white'}}>
                                 <div className="category-box" id={element} key={index} onClick={() => {
                                     this.props.onSearchData('')
