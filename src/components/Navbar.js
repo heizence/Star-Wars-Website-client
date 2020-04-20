@@ -7,7 +7,8 @@ import { serverAddress } from '../serverAddress'
 const mapStateToProps = (state) => {
   return {
       isLoggedIn: state.handleUser.isLoggedIn,
-      username: state.handleUser.username
+      username: state.handleUser.username,
+      token: state.handleUser.token
   }
 }
 
@@ -19,13 +20,15 @@ const mapDispatchToProps = (dispatch) => {
 
 const fetchSignout = (props) => {
   console.log('fetchsignout executed')
-  fetch(`${serverAddress}/user/signout`)
+  fetch(`${serverAddress}/user/signout?token=${props.token}`)
   .then(res => {
-    console.log('res : ' , res)
     window.alert('Logged out!')
     props.onRequestSignout()
   })
-  .catch(error => console.log(error))
+  .catch(error => {
+    window.alert('Error occured! Please try again later.')
+    console.log(error)
+  })
 }
 
 const NavigationBar = (props) => {
