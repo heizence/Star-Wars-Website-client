@@ -1,10 +1,10 @@
 import { REQUEST_PENDING, REQUEST_SUCCESS, REQUEST_FAILED, SEARCH, 
-    LOGGING_IN, LOGGING_OUT, PAGE_MOVE
+    LOGGING_IN, LOGGING_OUT, PAGE_MOVE, RESET_DATA
 } from './actions'
 
 const dataInitialState = {
     isPending: false,
-    data: [],
+    data: '',
     error: ''
 }
 
@@ -14,7 +14,8 @@ const searchInitialState = {
 
 const userInitialState = {
     isLoggedIn: false,
-    username: '',
+    user: '',
+    token: '',
     pageBeforeLogIn: ''
 }
 
@@ -23,7 +24,8 @@ export const fetchData = (state=dataInitialState, action={}) => {
         case REQUEST_PENDING:
             return {
                 ...state,
-                isPending: true
+                isPending: true,
+                error: ''
             }
         case REQUEST_SUCCESS:            
             return {
@@ -35,6 +37,11 @@ export const fetchData = (state=dataInitialState, action={}) => {
             return {
                 ...state,
                 error: action.payload
+            }
+        case RESET_DATA:
+            return {
+                ...state,
+                data: ''
             }
         default:
             return state
@@ -57,11 +64,14 @@ export const handleUser = (state=userInitialState, action={}) => {
         case LOGGING_IN:
             return {
                 isLoggedIn: true,
-                username: action.payload
+                user: action.payload.user,
+                token: action.payload.token
             }
         case LOGGING_OUT:
             return {
-                isLoggedIn: false
+                isLoggedIn: false,
+                user: '',
+                token: ''
             }
         case PAGE_MOVE:
             return {
