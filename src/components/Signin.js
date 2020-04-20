@@ -58,18 +58,19 @@ class Signin extends Component {
       body: JSON.stringify(reqBody)      
     })
     .then(res => res.json())
-    .then(data => {
-      console.log(data)
-      if (data.length === 0) {
+    .then(user => {
+      if (!user) {
         window.alert('No matching user.')
       }
-      else {
+      else if (user.token) {
         window.alert('Logged in!')
-        console.log('user info : ', data[0])
-        this.props.onRequestSignin(data[0])
+        this.props.onRequestSignin(user)
       }
     })
-    .catch(error => console.log(error))
+    .catch(error => {
+      window.alert('Error occured! Please try again later.')
+      console.log(error)
+    })
   }
 
   pressEnter = (e, callback) => {
@@ -93,7 +94,7 @@ class Signin extends Component {
                 <Label className="signin-label" for="exampleEmail" sm={2}>Email</Label>
                 <Col sm={10}>
                   <Input className="signin-form" type="email" name="email" 
-                  id="exampleEmail" placeholder="email" autoComplete="off"
+                  placeholder="email" autoComplete="off"
                   onChange={(e) => this.setState({ email: e.target.value})} />
                 </Col>
               </FormGroup>
@@ -101,14 +102,14 @@ class Signin extends Component {
                 <Label className="signin-label" for="examplePassword" sm={2}>Password</Label>
                 <Col sm={10}>
                   <Input className="signin-form" type="password" name="password" 
-                  id="examplePassword" placeholder="password" autoComplete="off"
+                  placeholder="password" autoComplete="off"
                   onChange={(e) => this.setState({ password: e.target.value})}
                   onKeyUp={(e) => this.pressEnter(e, this.fetchSignin)} />
                 </Col>
               </FormGroup>
               <FormGroup check row>
                 <Col sm={{ size: 10, offset: 2 }}>
-                  <Button id="signin-button" onClick={() => this.fetchSignin()}>Sign in</Button>
+                  <Button className="userform-button" onClick={() => this.fetchSignin()}>Sign in</Button>
                 </Col>
               </FormGroup>
             </Form>

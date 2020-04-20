@@ -45,6 +45,10 @@ class Signup extends Component {
             : this.setState({ usernameConfirmed: true })
         }
     })
+    .catch(error => {
+      window.alert('Error occured! Please try again later.')
+      console.log(error)
+    })
   }
 
   fetchSignup = () => {
@@ -86,7 +90,10 @@ class Signup extends Component {
         this.setState({ signedUp: true })    
       }
     })
-    .catch(error => console.log(error))
+    .catch(error => {
+      window.alert('Error occured! Please try again later.')
+      console.log(error)      
+    })
   }
 
   render() {
@@ -104,9 +111,9 @@ class Signup extends Component {
                 <Label className="signin-label" for="exampleEmail" sm={2}>Email</Label>
                 <Col sm={10}>
                   <Input className="signin-form" type="email" name="email" 
-                  id="exampleEmail" placeholder="email" autoComplete="off"                  
+                  placeholder="email" autoComplete="off"                  
                   onChange={(e) => this.setState({ email: e.target.value })} />
-                  <Button id="signin-button" style={{marginLeft: '30px'}}
+                  <Button className="userform-button" style={{marginLeft: '30px'}}
                   onClick={() => this.checkUserInfo('email', this.state.email)}>Check</Button>
                 </Col>
               </FormGroup>              
@@ -116,7 +123,7 @@ class Signup extends Component {
                   <Input className="signin-form" type="text" name="username" 
                   placeholder="username" autoComplete="off"
                   onChange={(e) => this.setState({ username : e.target.value})} />
-                  <Button id="signin-button" style={{marginLeft: '30px'}}
+                  <Button className="userform-button" style={{marginLeft: '30px'}}
                   onClick={() => this.checkUserInfo('username', this.state.username)}>Check</Button>
                 </Col>
               </FormGroup>
@@ -124,7 +131,7 @@ class Signup extends Component {
                 <Label className="signin-label" for="examplePassword" sm={2}>Password</Label>
                 <Col sm={10}>
                   <Input className="signin-form" type="password" name="password" 
-                  id="examplePassword" placeholder="password" autoComplete="off"
+                  placeholder="password" autoComplete="off"
                   onChange={(e) => this.setState({ password: e.target.value })} />
                 </Col>
               </FormGroup>
@@ -132,7 +139,7 @@ class Signup extends Component {
                 <Label className="signin-label" for="examplePassword" sm={2}>Check Password</Label>
                 <Col sm={10}>
                   <Input className="signin-form" type="password" name="password" 
-                  id="examplePassword" placeholder="password" autoComplete="off"
+                  placeholder="password" autoComplete="off"
                   onChange={(e) => this.setState({ passwordCheck: e.target.value})} />
                 </Col>
               </FormGroup>
@@ -150,7 +157,7 @@ class Signup extends Component {
 
               <FormGroup check row>
                 <Col sm={{ size: 10, offset: 2 }}>
-                  <Button id="signin-button" onClick={this.fetchSignup}>Sign up</Button>
+                  <Button className="userform-button" onClick={this.fetchSignup}>Sign up</Button>
                 </Col>
               </FormGroup>
             </Form>
