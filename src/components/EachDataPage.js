@@ -1,62 +1,81 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
+import { mapStateToProps, mapDispatchToProps } from '../reduxFiles/props'
 import GoBackButton from './GoBackButton'
-import { requestData } from '../reduxFiles/actionCreators'
 import InfoCaption from './InfoCaption'
 import Navbar from './Navbar'
+import RenderImage from './RenderImage'
+import { renderTextData, renderRelationalData } from './RenderText'
 
-const mapStateToProps = (state) => {
-    return {
-        data: state.fetchData.data,
-        isPending: state.fetchData.isPending,
-        error: state.fetchData.error
-    }
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onRequestData: (category, method, name) => dispatch(requestData(category, method, name))
-    }
-}
+const dummyData = { releaseDate: '1977-05-25T00:00:00.000Z',
+producer: 'Gary Kurtz, Rick McCallum',
+title: 'A New Hope',
+episodeId: 4,
+director: 'George Lucas',
+openingCrawl:
+ 'It is a period of civil war.\r\nRebel spaceships, striking\r\nfrom a hidden base, have won\r\ntheir first victory against\r\nthe evil Galactic Empire.\r\n\r\nDuring the battle, Rebel\r\nspies managed to steal secret\r\nplans to the Empire\'s\r\nultimate weapon, the DEATH\r\nSTAR, an armored space\r\nstation with enough power\r\nto destroy an entire planet.\r\n\r\nPursued by the Empire\'s\r\nsinister agents, Princess\r\nLeia races home aboard her\r\nstarship, custodian of the\r\nstolen plans that can save her\r\npeople and restore\r\nfreedom to the galaxy....',
+createdAt: '2019-12-13T19:42:35.590Z',
+updatedAt: '2019-12-13T19:42:35.590Z',
+planets:
+ { type: 'relational',
+   category: 'Planet',
+   data: [ 'Alderaan', 'Yavin IV', 'Tatooine' ] },
+characters:
+ { type: 'relational',
+   category: 'Character',
+   data:
+    [ 'Darth Vader',
+      'Beru Whitesun lars',
+      'Chewbacca',
+      'Leia Organa',
+      'R2-D2',
+      'R5-D4',
+      'Jek Tono Porkins',
+      'Raymus Antilles',
+      'Owen Lars',
+      'Luke Skywalker',
+      'Biggs Darklighter',
+      'Wedge Antilles',
+      'Wilhuff Tarkin',
+      'Jabba Desilijic Tiure',
+      'Obi-Wan Kenobi',
+      'Greedo',
+      'C-3PO',
+      'Han Solo' ] },
+starships:
+ { type: 'relational',
+   category: 'Starship',
+   data:
+    [ 'X-wing',
+      'Y-wing',
+      'CR90 corvette',
+      'TIE Advanced x1',
+      'Millennium Falcon',
+      'Sentinel-class landing craft',
+      'Star Destroyer',
+      'Death Star' ] },
+vehicles:
+ { type: 'relational',
+   category: 'Vehicle',
+   data:
+    [ 'T-16 skyhopper',
+      'TIE/LN starfighter',
+      'Sand Crawler',
+      'X-34 landspeeder' ] },
+species:
+ { type: 'relational',
+   category: 'Specie',
+   data: [ 'Droid', 'Rodian', 'Hutt', 'Wookie', 'Human' ] },
+objectId: 'GteveE4ytb' }
 
 class eachDataPage extends Component {
-
-    renderData = (object) => {        
-        return Object.keys(object).map((key, index) => {
-            if (Array.isArray(object[key])) {
-                if (object[key].length > 0) {
-                    return (
-                        <div key={index}>{key} :
-                        {object[key].map((element, index2) => {
-                            return (
-                            <div key={index2} className="contents-tag">{element}</div>
-                            )
-                        })}
-                        </div>
-                    )
-                }
-                else {
-                    return (
-                    <div key={index} className="contents-tag">{key} : none</div>
-                    )
-                }
-            }
-            else {
-                return (
-                <div key={index} className="contents-tag">{key} : {object[key]}</div>
-                )
-            }
-        })
-    }
-
     componentDidMount() {
+        console.log('sessionToken : ', sessionStorage)
         let { category, name } = this.props.match
 
-        // Refactoring name
+        /* Refactoring name
+        split('&').join('/') is for names which include '/'. For example : TIE/LN starfighter */
         name = name.split('+').join(' ').split('&').join('/') 
-        // In case there are names which include '/'. For example : TIE/LN starfighter
-
-        //console.log('match/location 확인(EachDataPage) : ', this.props.match, this.props.location)
         this.props.onRequestData(category, 'getdata', name)
     }
     
@@ -67,8 +86,6 @@ class eachDataPage extends Component {
         let dataToRender = this.props.data
         let pageIndex = this.props.location.search.split('=')[1]
         
-        //console.log('data 확인(EachDataPage) : ', this.props.data)
-        //console.log('pageIndex(EachDataPage) : ', pageIndex)
         return (
             <div className="main">
             <Navbar />
@@ -79,10 +96,15 @@ class eachDataPage extends Component {
                     onClick={() => this.props.onRequestData(this.props.match.category, 'getnames')}/>
                     <div>
                         {!this.props.isPending ? 
-                        <div className="contents-box">                    
-                            <div>{this.renderData(dataToRender)}</div>
-                        </div> :
-                        <div style={{
+                            <div>
+                        <div className="contents-box">
+                           
+                        <RenderImage image={"../images/C-3PO.jpg"} />
+                            <div className="contents-textbox">{renderTextData(dataToRender)}</div>
+                        </div>
+                        <div className="contents-relationalBox">{renderRelationalData(dataToRender, pageIndex)}</div>
+                        </div>
+                        : <div style={{
                             color: 'white', marginTop: '50px', fontSize: '30px', fontWeight: 'bold'                    
                         }}>{this.props.error ? 'Error! Please try again later' : 'Loading...'}</div>
                         }       
