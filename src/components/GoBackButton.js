@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 
 const GoBackButton = (props) => {
-    console.log('goback button executed: ', props)
     let addr
 
     // Go back to main
