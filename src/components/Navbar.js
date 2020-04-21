@@ -1,26 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { requestSignout } from '../reduxFiles/actionCreators'
+import { mapStateToProps, mapDispatchToProps } from '../reduxFiles/props'
 import { serverAddress } from '../serverAddress'
-
-const mapStateToProps = (state) => {
-  return {
-      isLoggedIn: state.handleUser.isLoggedIn,
-      username: state.handleUser.username,
-      token: state.handleUser.token
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onRequestSignout: () => requestSignout(dispatch)
-  }
-}
 
 const fetchSignout = (props) => {
   console.log('fetchsignout executed')
-  fetch(`${serverAddress}/user/signout?token=${props.token}`)
+  fetch(`${serverAddress}/user/signout?token=${sessionStorage.getItem('token')}`)
   .then(res => {
     window.alert('Logged out!')
     props.onRequestSignout()
@@ -40,10 +26,10 @@ const NavigationBar = (props) => {
       </Link>
         <div id='navbar-text'>        
         <ul>
-          {props.isLoggedIn ?
+          {sessionStorage.length > 0 ? // Login status
             <li style={{color: 'yellow'}}><Link to={'/mypage'}>My page</Link></li> : ''
           }
-          {props.isLoggedIn ?           
+          {sessionStorage.length > 0 ?  // Login status  
           <li onClick={() => fetchSignout(props)}>Sign out</li> :
           <li><Link to={'/signin'}>Sign in</Link></li>
           }          
