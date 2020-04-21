@@ -1,35 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { requestData, requestSearch } from '../reduxFiles/actionCreators'
+import { mapStateToProps, mapDispatchToProps } from '../reduxFiles/props'
 import { Link } from 'react-router-dom'
 import GoBackButton from './GoBackButton'
 import InfoCaption from './InfoCaption'
 import Navbar from './Navbar'
 
-const mapStateToProps = (state) => {
-    return {
-        data: state.fetchData.data,
-        isPending: state.fetchData.isPending,
-        error: state.fetchData.error,
-        text: state.searchData.text
-    }
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onRequestData: (category, method) => dispatch(requestData(category, method)),
-        onSearchData: (text) => requestSearch(dispatch, text)
-    }
-}
-
 class categoryPage extends Component {    
-    // constructor() {
-    //     super()
-    //     this.state ={
-    //         pageMoved: false
-    //     }
-    // }
-
     searchDataAndRender(text) {
         let data = this.props.data.filter(element => {
             let str = element
@@ -74,14 +51,12 @@ class categoryPage extends Component {
     }
 
     componentDidMount() {
+        console.log('sessionToken : ', sessionStorage)
         this.props.onRequestData(this.props.category, 'getnames')
     }
 
     render() {        
-        console.log('data 확인(categoryPage) : ')
-        console.log('is Pending? : ', Array.isArray(this.props.isPending))
-        console.log('is Array? : ', Array.isArray(this.props.data))
-        console.log(this.props.data)
+        console.log('previous page : ' ,)
 
         let pageIndex = this.props.location.search.split('=')[1]
         let category = this.props.category
