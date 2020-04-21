@@ -2,22 +2,10 @@ import React, { Component } from 'react';
 import { Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux'
-import { requestSignin } from '../reduxFiles/actionCreators'
+import { mapStateToProps, mapDispatchToProps } from '../reduxFiles/props'
 import Navbar from './Navbar'
 import InfoCaption from './InfoCaption'
 import { serverAddress } from '../serverAddress'
-
-const mapStateToProps = (state) => {
-  return {
-      isLoggedIn: state.handleUser.isLoggedIn
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onRequestSignin: (username) => requestSignin(username, dispatch)
-  }
-}
 
 class Signin extends Component {
   constructor(props) {
@@ -80,7 +68,7 @@ class Signin extends Component {
   }
 
   render() {
-    if (this.props.isLoggedIn) {
+    if (sessionStorage.length > 0) {  // if logged in
       return <Redirect to='/' />
     }
     else {
