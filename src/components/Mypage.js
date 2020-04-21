@@ -2,24 +2,10 @@ import React, { Component } from 'react';
 import { Button, Input } from 'reactstrap';
 import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux'
-import { requestSignout } from '../reduxFiles/actionCreators'
+import { mapStateToProps, mapDispatchToProps } from '../reduxFiles/props'
 import Navbar from './Navbar'
 import InfoCaption from './InfoCaption'
 import { serverAddress } from '../serverAddress'
-
-const mapStateToProps = (state) => {
-    return {
-        isLoggedIn: state.handleUser.isLoggedIn,
-        user: state.handleUser.user,
-        token: state.handleUser.token
-    }
-}
-  
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onRequestSignout: () => requestSignout(dispatch)
-    }
-}
 
 class Mypage extends Component {
   constructor(props) {
@@ -72,7 +58,7 @@ class Mypage extends Component {
   }
 
   fetchModify = (newUsername, newPassword) => {
-    let reqBody = { newUsername, newPassword, token: this.props.token }
+    let reqBody = { newUsername, newPassword, token: sessionStorage.getItem('token') }
 
     fetch(`${serverAddress}/user/updateuser`, 
     { 
@@ -92,31 +78,8 @@ class Mypage extends Component {
     })
   }
 
-  // fetchDeleteAccount = () => {
-  //   let password = window.prompt(`You are going to delete your account. If you want to proceed, enter your password and press OK.`)
-
-  //   if (password === '') {
-  //       window.alert(`Enter your password`)
-  //       return
-  //   }
-  //   fetch(`${serverAddress}/user/deleteuser?password=${password}&token=${this.props.token}`, {
-  //     method: 'DELETE',
-  //     headers: {'Content-Type': 'application/json'}
-  //   })
-  //   .then(res => {
-  //       if (res.status === 200) {
-  //           window.alert(`User account has been deleted.`)  
-  //           this.props.onRequestSignout()     
-  //       }
-  //       else if (res.status === 201) {
-  //           window.alert(`Password incorrect!`)
-  //       }
-  //   })
-  //   .catch(error => console.log(error))
-  // }
-
   render() {
-    if (!this.props.isLoggedIn) {
+    if (sessionStorage.length === 0) {  // if not logged in
       return <Redirect to='/' />
     }
     else {
