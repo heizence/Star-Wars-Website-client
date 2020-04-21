@@ -16,4 +16,4 @@ export const LOGGING_OUT = 'LOGGING_OUT'
 
 /* Save page address that visited just before login 
 to move to that page when logged in. */
-export const PAGE_MOVE = 'PAGE_MOVING'    
+export const PAGE_MOVE = 'PAGE_MOVE'    

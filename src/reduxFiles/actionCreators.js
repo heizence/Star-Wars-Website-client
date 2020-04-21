@@ -1,5 +1,5 @@
 import { REQUEST_PENDING, REQUEST_SUCCESS, REQUEST_FAILED, SEARCH, 
-    LOGGING_IN, LOGGING_OUT, PAGE_MOVE, RESET_DATA
+    LOGGING_IN, LOGGING_OUT, RESET_DATA
 } from './actions'
 import { serverAddress } from '../serverAddress'
 
@@ -40,10 +40,4 @@ export const requestSignin = (userObj, dispatch) => {
 
 export const requestSignout = (dispatch) => {
     dispatch({ type: LOGGING_OUT })
-}
-
-/* Save page address that visited just before login 
-to move to that page when logged in. */
-export const requestPagemove = (dispatch, pageAddress) => {
-    dispatch({ type: PAGE_MOVE, payload: pageAddress })
 }
