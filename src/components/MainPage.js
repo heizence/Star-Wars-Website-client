@@ -1,28 +1,20 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { resetData } from '../reduxFiles/actionCreators'
+import { mapDispatchToProps } from '../reduxFiles/props'
 import Navbar from './Navbar'
 import InfoCaption from './InfoCaption'
-import '../App.css';
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-      onResetData: () => resetData(dispatch)
-  }
-}
 
 class MainPage extends Component {
   componentDidMount() {
+    console.log('sessionToken : ', sessionStorage)
     // Reset Data
     this.props.onResetData()
   }
 
   render() {
     const categories = [ "Character", "Film", "Planet", "Specie", "Starship", "Vehicle"]
-    const titleStyle = {
-      color: 'white', padding: '0px 30px 0px 30px'
-    }
+    const titleStyle = { color: 'white', padding: '0px 30px 0px 30px' }
 
     return (      
       <div className="main">
