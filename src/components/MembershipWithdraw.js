@@ -2,24 +2,10 @@ import React, { Component } from 'react';
 import { Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux'
-import { requestSignout } from '../reduxFiles/actionCreators'
+import { mapStateToProps, mapDispatchToProps } from '../reduxFiles/props'
 import Navbar from './Navbar'
 import InfoCaption from './InfoCaption'
 import { serverAddress } from '../serverAddress'
-
-const mapStateToProps = (state) => {
-  return {
-      isLoggedIn: state.handleUser.isLoggedIn,
-      user: state.handleUser.user,
-      token: state.handleUser.token
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onRequestSignout: () => requestSignout(dispatch)
-  }
-}
 
 class MembershipWithdraw extends Component {
   constructor(props) {
@@ -36,7 +22,7 @@ class MembershipWithdraw extends Component {
         window.alert(`Enter your password`)
         return
     }
-    fetch(`${serverAddress}/user/deleteuser?password=${password}&token=${this.props.token}`, {
+    fetch(`${serverAddress}/user/deleteuser?password=${password}&token=${sessionStorage.getItem('token')}`, {
       method: 'DELETE',
       headers: {'Content-Type': 'application/json'}
     })
@@ -56,7 +42,7 @@ class MembershipWithdraw extends Component {
   }
 
   render() {
-    if (!this.props.isLoggedIn) {
+    if (sessionStorage.length === 0) {  // if not logged in
       return <Redirect to='/' />
     }
     else {
