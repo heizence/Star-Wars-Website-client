@@ -2,8 +2,12 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 // Render non-relational data
-export const renderTextData = (object) => {      
+export const renderTextData = (object) => {    
+    console.log('renderTextData : ', object)
     return Object.keys(object).map((key, index) => {
+        if (key === 'imagefile') {
+            console.log('renderTextData : ', key, object[key])
+        }
         if (object[key] && !object[key]["type"]) {
             if (Array.isArray(object[key])) {
                 if (object[key].length > 0) {
@@ -26,8 +30,8 @@ export const renderTextData = (object) => {
                     )
                 }
             }
-            else if (key !== 'name' && key !== 'title' && 
-            key !== 'createdAt' && key !== 'updatedAt' && key !== 'objectId') {
+            else if (key !== 'name' && key !== 'title' && key !== 'createdAt' 
+            && key !== 'updatedAt' && key !== 'objectId' && key !== 'imagefile') {
                 return (
                     <div key={index} style={{marginBottom: '10px'}}>
                         <span className="contents-tag">{key} </span>
