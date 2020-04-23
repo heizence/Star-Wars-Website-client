@@ -1,9 +1,16 @@
-import { REQUEST_PENDING, REQUEST_SUCCESS, REQUEST_FAILED, SEARCH, 
+import { NAME_REQUEST_PENDING, NAME_REQUEST_SUCCESS, NAME_REQUEST_FAILED, SEARCH, 
+    DATA_REQUEST_PENDING, DATA_REQUEST_SUCCESS, DATA_REQUEST_FAILED, 
     LOGGING_IN, LOGGING_OUT, RESET_DATA
 } from './actions'
 
-const dataInitialState = {
-    isPending: false,
+const namesInitialState = {
+    isPending: true,
+    data: '',
+    error: ''
+}
+
+const specificDataInitialState = {
+    isPending: true,
     data: '',
     error: ''
 }
@@ -17,23 +24,54 @@ const userInitialState = {
     user: ''
 }
 
-export const fetchData = (state=dataInitialState, action={}) => {
+export const fetchNames = (state=namesInitialState, action={}) => {
     switch(action.type) {
-        case REQUEST_PENDING:
+        case NAME_REQUEST_PENDING:
             return {
                 ...state,
                 isPending: true,
                 error: ''
             }
-        case REQUEST_SUCCESS:            
+        case NAME_REQUEST_SUCCESS:            
             return {
                 ...state,
                 isPending: false,
                 data: action.payload
             }
-        case REQUEST_FAILED:
+        case NAME_REQUEST_FAILED:
             return {
                 ...state,
+                isPending: false,
+                error: action.payload
+            }
+        case RESET_DATA:
+            return {
+                ...state,
+                data: ''
+            }
+        default:
+            return state
+    }
+}
+
+export const fetchSpecificData = (state=specificDataInitialState, action={}) => {
+    switch(action.type) {
+        case DATA_REQUEST_PENDING:
+            return {
+                ...state,
+                isPending: true,
+                error: ''
+            }
+        case DATA_REQUEST_SUCCESS:            
+            return {
+                ...state,
+                isPending: false,
+                data: action.payload
+            }
+        case DATA_REQUEST_FAILED:
+            return {
+                ...state,
+                isPending: false,
                 error: action.payload
             }
         case RESET_DATA:

@@ -1,28 +1,48 @@
-import { REQUEST_PENDING, REQUEST_SUCCESS, REQUEST_FAILED, SEARCH, 
-    LOGGING_IN, LOGGING_OUT, RESET_DATA
+import { NAME_REQUEST_PENDING, NAME_REQUEST_SUCCESS, NAME_REQUEST_FAILED, 
+    DATA_REQUEST_PENDING, DATA_REQUEST_SUCCESS, DATA_REQUEST_FAILED, 
+    SEARCH, LOGGING_IN, LOGGING_OUT, RESET_DATA
 } from './actions'
 import { serverAddress } from '../serverAddress'
 
-export const requestData = (category, method, name) => async (dispatch) => {
-    dispatch({ type: REQUEST_PENDING })
+// Fetch all data names and image url
+export const requestNames = (category) => async (dispatch) => {
+    dispatch({ type: NAME_REQUEST_PENDING })
+    let requestAddress =`${serverAddress}/data/getnames?category=${category}`
 
-    // if name exists, getdata request, or getnames request
-    let requestAddress = name ? `${serverAddress}/data/${method}?category=${category}&name=${name}`
-    : `${serverAddress}/data/${method}?category=${category}` 
+    try {
+        let res = await fetch(requestAddress)
+        if (res.status === 200) {
+            let data = await res.json()
+            dispatch({ type: NAME_REQUEST_SUCCESS, payload: data, category })
+        }
+        else if (res.status === 400) {
+            let error = await res.json()
+            dispatch({ type: NAME_REQUEST_FAILED, payload: error })
+        }
+    }
+    catch(error) {
+        dispatch({ type: NAME_REQUEST_FAILED, payload: error })
+    }
+}
+
+// Fetch specific data
+export const requestSpecificData = (category, name) => async (dispatch) => {
+    dispatch({ type: DATA_REQUEST_PENDING })
+    let requestAddress =`${serverAddress}/data/getdata/?category=${category}&name=${name}`
     
     try {
         let res = await fetch(requestAddress)
         if (res.status === 200) {
             let data = await res.json()
-            dispatch({ type: REQUEST_SUCCESS, payload: data, category })
+            dispatch({ type: DATA_REQUEST_SUCCESS, payload: data, category })
         }
         else if (res.status === 400) {
             let error = await res.json()
-            dispatch({ type: REQUEST_FAILED, payload: error })
+            dispatch({ type: DATA_REQUEST_FAILED, payload: error })
         }
     }
     catch(error) {
-        dispatch({ type: REQUEST_FAILED, payload: error })
+        dispatch({ type: DATA_REQUEST_FAILED, payload: error })
     }
 }
 

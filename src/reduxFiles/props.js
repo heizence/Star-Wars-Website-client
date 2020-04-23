@@ -1,13 +1,20 @@
 import { 
-    requestData, resetData, requestSearch, requestSignin, requestSignout 
+    requestNames, requestSpecificData, resetData, requestSearch, requestSignin, requestSignout 
 } from '../reduxFiles/actionCreators'
 
 
 export const mapStateToProps = (state) => {
     return {
-        data: state.fetchData.data, // names data or specific data
-        isPending: state.fetchData.isPending,   // is pending 
-        error: state.fetchData.error,   // has error
+        // names 
+        names_data: state.fetchNames.data, // data
+        names_isPending: state.fetchNames.isPending,   // is pending 
+        names_error: state.fetchNames.error,   // has error
+
+        // specific data
+        specific_data: state.fetchSpecificData.data, // data
+        specific_isPending: state.fetchSpecificData.isPending,   // is pending 
+        specific_error: state.fetchSpecificData.error,   // has error
+
         text: state.searchData.text,    // search text
         isLoggedIn: state.handleUser.isLoggedIn, // is logged in
         user: state.handleUser.user,    // user information
@@ -16,7 +23,8 @@ export const mapStateToProps = (state) => {
   
 export const mapDispatchToProps = (dispatch) => {
     return {
-        onRequestData: (category, method, name) => dispatch(requestData(category, method, name)),
+        onRequestNames: (category) => dispatch(requestNames(category)),
+        onRequestSpecificData: (category, name) => dispatch(requestSpecificData(category, name)),
         onSearchData: (text) => requestSearch(dispatch, text),
         onResetData: () => resetData(dispatch),
         onRequestSignin: (username) => requestSignin(username, dispatch),    
