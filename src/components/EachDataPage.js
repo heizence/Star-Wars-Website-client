@@ -7,67 +7,49 @@ import Navbar from './Navbar'
 import RenderImage from './RenderImage'
 import { renderTextData, renderRelationalData } from './RenderText'
 
-const dummyData = { releaseDate: '1977-05-25T00:00:00.000Z',
-producer: 'Gary Kurtz, Rick McCallum',
-title: 'A New Hope',
-episodeId: 4,
-director: 'George Lucas',
-openingCrawl:
- 'It is a period of civil war.\r\nRebel spaceships, striking\r\nfrom a hidden base, have won\r\ntheir first victory against\r\nthe evil Galactic Empire.\r\n\r\nDuring the battle, Rebel\r\nspies managed to steal secret\r\nplans to the Empire\'s\r\nultimate weapon, the DEATH\r\nSTAR, an armored space\r\nstation with enough power\r\nto destroy an entire planet.\r\n\r\nPursued by the Empire\'s\r\nsinister agents, Princess\r\nLeia races home aboard her\r\nstarship, custodian of the\r\nstolen plans that can save her\r\npeople and restore\r\nfreedom to the galaxy....',
-createdAt: '2019-12-13T19:42:35.590Z',
-updatedAt: '2019-12-13T19:42:35.590Z',
-planets:
+/*
+const dummyData = { name: 'Obi-Wan Kenobi',
+gender: 'male',
+skinColor: 'fair',
+hairColor: 'auburn, white',
+height: 182,
+eyeColor: 'blue-gray',
+mass: 77,
+homeworld: [ 'Stewjon' ],
+birthYear: '57BBY',
+createdAt: '2019-12-13T19:42:31.498Z',
+updatedAt: '2020-04-23T05:39:18.109Z',
+imagefile:
+ { __type: 'File',
+   name: 'ef514565ab1994d3079931ff4a8bd243_Obi-Wan Kenobi.jpg',
+   url:
+    'https://parsefiles.back4app.com/pnKgu5IKxHxRbqVt5L7l7bJLgvfE5GyLwUc7jzzr/ef514565ab1994d3079931ff4a8bd243_Obi-Wan%20Kenobi.jpg' },
+species: { type: 'relational', category: 'Specie', data: [] },
+vehicles:
  { type: 'relational',
-   category: 'Planet',
-   data: [ 'Alderaan', 'Yavin IV', 'Tatooine' ] },
-characters:
- { type: 'relational',
-   category: 'Character',
-   data:
-    [ 'Darth Vader',
-      'Beru Whitesun lars',
-      'Chewbacca',
-      'Leia Organa',
-      'R2-D2',
-      'R5-D4',
-      'Jek Tono Porkins',
-      'Raymus Antilles',
-      'Owen Lars',
-      'Luke Skywalker',
-      'Biggs Darklighter',
-      'Wedge Antilles',
-      'Wilhuff Tarkin',
-      'Jabba Desilijic Tiure',
-      'Obi-Wan Kenobi',
-      'Greedo',
-      'C-3PO',
-      'Han Solo' ] },
+   category: 'Vehicle',
+   data: [ 'Tribubble bongo' ] },
 starships:
  { type: 'relational',
    category: 'Starship',
    data:
-    [ 'X-wing',
-      'Y-wing',
-      'CR90 corvette',
-      'TIE Advanced x1',
-      'Millennium Falcon',
-      'Sentinel-class landing craft',
-      'Star Destroyer',
-      'Death Star' ] },
-vehicles:
+    [ 'Jedi starfighter',
+      'Trade Federation cruiser',
+      'Naboo star skiff',
+      'Jedi Interceptor',
+      'Belbullab-22 starfighter' ] },
+films:
  { type: 'relational',
-   category: 'Vehicle',
+   category: 'Film',
    data:
-    [ 'T-16 skyhopper',
-      'TIE/LN starfighter',
-      'Sand Crawler',
-      'X-34 landspeeder' ] },
-species:
- { type: 'relational',
-   category: 'Specie',
-   data: [ 'Droid', 'Rodian', 'Hutt', 'Wookie', 'Human' ] },
-objectId: 'GteveE4ytb' }
-
+    [ 'A New Hope',
+      'Attack of the Clones',
+      'Revenge of the Sith',
+      'Return of the Jedi',
+      'The Phantom Menace',
+      'The Empire Strikes Back' ] },
+objectId: 'nxpAPnATEb' }
+*/
 class eachDataPage extends Component {
     componentDidMount() {
         console.log('sessionToken : ', sessionStorage)
@@ -76,15 +58,16 @@ class eachDataPage extends Component {
         /* Refactoring name
         split('&').join('/') is for names which include '/'. For example : TIE/LN starfighter */
         name = name.split('+').join(' ').split('&').join('/') 
-        this.props.onRequestData(category, 'getdata', name)
+        this.props.onRequestSpecificData(category, name)
     }
     
     render() {
         /* Refactoring name
         split('&').join('/') is for names which include '/'. For example : TIE/LN starfighter */
         let name = this.props.match.name.split('+').join(' ').split('&').join('/')
-        let dataToRender = this.props.data
+        let dataToRender = this.props.specific_data
         let pageIndex = this.props.location.search.split('=')[1]
+        console.log('data check : ' ,dataToRender)
         
         return (
             <div className="main">
@@ -93,20 +76,20 @@ class eachDataPage extends Component {
                 <div style={{paddingTop: '30px'}}>
                     <h1 style={{color: 'white', fontSize: '50px'}}>{name}</h1>   
                     <GoBackButton text="Go Back to category" category={this.props.match.category} index={pageIndex} 
-                    onClick={() => this.props.onRequestData(this.props.match.category, 'getnames')}/>
+                    onClick={() => this.props.onRequestNames(this.props.match.category)}/>
                     <div>
-                        {!this.props.isPending ? 
+                        {!this.props.specific_isPending && dataToRender? 
                             <div>
                         <div className="contents-box">
                            
-                        <RenderImage image={"../images/C-3PO.jpg"} />
+                        <RenderImage imagefile={dataToRender["imagefile"]} />
                             <div className="contents-textbox">{renderTextData(dataToRender)}</div>
                         </div>
                         <div className="contents-relationalBox">{renderRelationalData(dataToRender, pageIndex)}</div>
                         </div>
                         : <div style={{
                             color: 'white', marginTop: '50px', fontSize: '30px', fontWeight: 'bold'                    
-                        }}>{this.props.error ? 'Error! Please try again later' : 'Loading...'}</div>
+                        }}>{this.props.specific_error ? 'Error! Please try again later' : 'Loading...'}</div>
                         }       
                     </div>
                 </div>
