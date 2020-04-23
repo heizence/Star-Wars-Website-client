@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { mapStateToProps, mapDispatchToProps } from '../reduxFiles/props'
 import { Link } from 'react-router-dom'
+import RenderDataBox from './RenderDataBox'
 import GoBackButton from './GoBackButton'
 import InfoCaption from './InfoCaption'
 import Navbar from './Navbar'
 
 class categoryPage extends Component {    
     searchDataAndRender(text) {
-        let data = this.props.data.filter(element => {
-            let str = element
+        let data = this.props.names_data.filter(element => {
+            let str = element.name || element.title
             let txt = new RegExp(text, "i")
             return txt.test(str)
         })
@@ -17,7 +18,7 @@ class categoryPage extends Component {
     }
 
     renderPageButtons(category) {
-        const numberOfPages = this.props.data.length
+        const numberOfPages = this.props.names_data.length
     
         let pageIndex = this.props.location.search.split('=')[1]  
         let indexArr = []
@@ -52,12 +53,10 @@ class categoryPage extends Component {
 
     componentDidMount() {
         console.log('sessionToken : ', sessionStorage)
-        this.props.onRequestData(this.props.category, 'getnames')
+        this.props.onRequestNames(this.props.category)
     }
 
     render() {        
-        console.log('previous page : ' ,)
-
         let pageIndex = this.props.location.search.split('=')[1]
         let category = this.props.category
         let data
@@ -66,11 +65,11 @@ class categoryPage extends Component {
             data = this.searchDataAndRender(this.props.text)
         } 
         // Set index only data type is Array, especially moved back from EachDataPage. 
-        else if (Array.isArray(this.props.data)) {
+        else if (!this.props.names_isPending) {
             // Render 12 items per a page
             let startIndex = (pageIndex-1) * 12
             let endIndex = pageIndex * 12
-            data = this.props.data.slice(startIndex, endIndex)
+            data = this.props.names_data.slice(startIndex, endIndex)
         } 
         
         return (   
@@ -90,23 +89,15 @@ class categoryPage extends Component {
                     <GoBackButton text='Go back to Main'/>
                 </div>
 
-                <div>                          
-                    {this.props.isPending || !Array.isArray(this.props.data) ? 
-                    <div style={{
-                        color: 'white', marginTop: '50px', fontSize: '30px', fontWeight: 'bold'                    
-                    }}>{this.props.error ? "Error! Please try again later" : "Loading..."}</div> :
-                    
+                <div>     
+                    {!this.props.names_isPending && data? 
                     <div>
                         <div className="category-container">
                         {data.map((element, index) =>  
-                            <Link to={`/category/${category}/${element.split(' ').join('+').split('/').join('&')}?categorypage=${pageIndex}`} 
-                            key={index} style={{textDecoration: 'none', color: 'white'}}>
-                                <div className="category-box" id={element} key={index} onClick={() => {
-                                    this.props.onSearchData('')
-                                }}>
-                                    <div className="box-text">{element}</div>
-                                </div>
-                            </Link>                            
+                            <RenderDataBox key={index}
+                            category={category} element={element} 
+                            index={index} pageIndex={pageIndex} 
+                            onSearchData={this.props.onSearchData}/>                      
                         )}                    
                         </div>
                         
@@ -115,12 +106,14 @@ class categoryPage extends Component {
                         {this.renderPageButtons(category)}
                         </div>
                     </div>
-                    }  
+                    : <div style={{
+                        color: 'white', marginTop: '50px', fontSize: '30px', fontWeight: 'bold'                    
+                    }}>{this.props.names_error ? 'Error! Please try again later' : 'Loading...'}</div>
+                    } 
                 </div>    
             </div>  
 
             <InfoCaption />
-
             </div>
         )
     }
