@@ -1,20 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 
-const RenderDataBox = ({ category, element, index, pageIndex, onSearchData }) => {
-    let elmt = element.name || element.title    // elmt is short for element
+const RenderDataBox = ({ category, element, onSearchData }) => {
+    let { imagefile } = element
+    let nameOrTitle = element.name || element.title // title is for film category
 
+    // If element has image file, render it as a background image
     let imgStyle
-    if (element.imagefile) {
-        imgStyle = { backgroundImage: `url(${element.imagefile.url})` }
+    if (imagefile) {
+        imgStyle = { backgroundImage: `url(${imagefile})` }
     }
 
     return (
-        <Link to={`/category/${category}/${elmt.split(' ').join('+').split('/').join('&')}?categorypage=${pageIndex}`} 
-        key={index} style={{textDecoration: 'none', color: 'white'}}>
-            <div className="category-box" key={index} style={imgStyle}
+        /* Refactoring name
+        split('&').join('/') is for names which include '/'. For example : TIE/LN starfighter */
+        <Link to={`/category/${category}/${nameOrTitle.split(' ').join('+').split('/').join('&')}`} 
+        style={{textDecoration: 'none', color: 'white'}}>
+            <div className="category-box" style={imgStyle}
             onClick={() => { onSearchData('') }}>
-                <div className="box-text">{elmt}</div>
+                <div className="box-text">{nameOrTitle}</div>
             </div>
         </Link>
     )

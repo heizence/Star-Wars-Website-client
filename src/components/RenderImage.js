@@ -1,11 +1,11 @@
 import React from 'react';
 
 const RenderImage = ({ imagefile }) => {
-    console.log('Render Image : ', imagefile)
     let imgStyle, tag
 
+    // Set background image when image exists
     if (imagefile) {
-        imgStyle = { backgroundImage: `url(${imagefile.url})` }
+        imgStyle = { backgroundImage: `url(${imagefile})` }
         tag = ''
     }
     else {
