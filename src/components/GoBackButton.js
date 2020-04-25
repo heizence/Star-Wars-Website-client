@@ -1,5 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { mapDispatchToProps } from '../reduxFiles/props'
 
 const GoBackButton = (props) => {
     let addr
@@ -16,10 +18,12 @@ const GoBackButton = (props) => {
     return (
         <div>
             <Link to={addr}>
-                <button id='back-button' onClick={props.onClick}>{props.text}</button>
+                <button id='back-button' onClick={() => {
+                    props.onSearchData('')  // To prevent error
+                }}>{props.text}</button>
             </Link>
         </div>
     )
 }
 
-export default GoBackButton
+export default connect(null, mapDispatchToProps)(GoBackButton);
