@@ -1,53 +1,27 @@
-import { NAME_REQUEST_PENDING, NAME_REQUEST_SUCCESS, NAME_REQUEST_FAILED, 
-    DATA_REQUEST_PENDING, DATA_REQUEST_SUCCESS, DATA_REQUEST_FAILED, 
-    SEARCH, LOGGING_IN, LOGGING_OUT, RESET_DATA
+import { REQUEST_PENDING, REQUEST_SUCCESS, REQUEST_FAILED, 
+    SEARCH, LOGGING_IN, LOGGING_OUT, PAGE_MOVE
 } from './actions'
 import { serverAddress } from '../serverAddress'
 
-// Fetch all data names and image url
-export const requestNames = (category) => async (dispatch) => {
-    dispatch({ type: NAME_REQUEST_PENDING })
-    let requestAddress =`${serverAddress}/data/getnames?category=${category}`
+// Fetch specific category data and image url
+export const requestData = (category) => async (dispatch) => {
+    dispatch({ type: REQUEST_PENDING })
+    let requestAddress =`${serverAddress}/data/getdata?category=${category}`
 
     try {
         let res = await fetch(requestAddress)
         if (res.status === 200) {
             let data = await res.json()
-            dispatch({ type: NAME_REQUEST_SUCCESS, payload: data, category })
+            dispatch({ type: REQUEST_SUCCESS, payload: data, category })
         }
         else if (res.status === 400) {
             let error = await res.json()
-            dispatch({ type: NAME_REQUEST_FAILED, payload: error })
+            dispatch({ type: REQUEST_FAILED, payload: error })
         }
     }
     catch(error) {
-        dispatch({ type: NAME_REQUEST_FAILED, payload: error })
+        dispatch({ type: REQUEST_FAILED, payload: error })
     }
-}
-
-// Fetch specific data
-export const requestSpecificData = (category, name) => async (dispatch) => {
-    dispatch({ type: DATA_REQUEST_PENDING })
-    let requestAddress =`${serverAddress}/data/getdata/?category=${category}&name=${name}`
-    
-    try {
-        let res = await fetch(requestAddress)
-        if (res.status === 200) {
-            let data = await res.json()
-            dispatch({ type: DATA_REQUEST_SUCCESS, payload: data, category })
-        }
-        else if (res.status === 400) {
-            let error = await res.json()
-            dispatch({ type: DATA_REQUEST_FAILED, payload: error })
-        }
-    }
-    catch(error) {
-        dispatch({ type: DATA_REQUEST_FAILED, payload: error })
-    }
-}
-
-export const resetData = (dispatch) => {
-    dispatch({ type: RESET_DATA })
 }
 
 export const requestSearch = (dispatch, value) => {
@@ -60,4 +34,15 @@ export const requestSignin = (userObj, dispatch) => {
 
 export const requestSignout = (dispatch) => {
     dispatch({ type: LOGGING_OUT })
+}
+
+/* 
+This is for saving current page URL. When user logged in or logged out with the saved URL, 
+User can move to the page URL before logging in or logging out.
+*/
+export const requestPageMove = (dispatch, address) => {
+    // Refactoring address into router path
+    // For example : http://localhost:3000/category/Character?page=1 -> category/Character?page=1
+    let routePath = address.split('/').slice(3).join('/')
+    dispatch({ type: PAGE_MOVE, payload: routePath })
 }

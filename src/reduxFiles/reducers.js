@@ -1,83 +1,46 @@
-import { NAME_REQUEST_PENDING, NAME_REQUEST_SUCCESS, NAME_REQUEST_FAILED, SEARCH, 
-    DATA_REQUEST_PENDING, DATA_REQUEST_SUCCESS, DATA_REQUEST_FAILED, 
-    LOGGING_IN, LOGGING_OUT, RESET_DATA
+import { REQUEST_PENDING, REQUEST_SUCCESS, REQUEST_FAILED, 
+    SEARCH, LOGGING_IN, LOGGING_OUT, PAGE_MOVE
 } from './actions'
 
-const namesInitialState = {
+const dataInitialState = {
     isPending: true,
-    data: '',
-    error: ''
-}
-
-const specificDataInitialState = {
-    isPending: true,
-    data: '',
-    error: ''
+    error: '',
+    // All category data
+    Character: '',
+    Film: '',
+    Planet: '',
+    Specie: '',
+    Starship: '',
+    Vehicle: '',
 }
 
 const searchInitialState = {
     text: ''
 }
 
-const userInitialState = {
-    isLoggedIn: false,
-    user: ''
+const loginStatus = {
+    isLoggedIn: ''
 }
 
-export const fetchNames = (state=namesInitialState, action={}) => {
+export const fetchData = (state=dataInitialState, action={}) => {
     switch(action.type) {
-        case NAME_REQUEST_PENDING:
+        case REQUEST_PENDING:
             return {
                 ...state,
                 isPending: true,
                 error: ''
             }
-        case NAME_REQUEST_SUCCESS:            
+        case REQUEST_SUCCESS:     
             return {
                 ...state,
                 isPending: false,
-                data: action.payload
+                [action.category]: action.payload
             }
-        case NAME_REQUEST_FAILED:
-            return {
-                ...state,
-                isPending: false,
-                error: action.payload
-            }
-        case RESET_DATA:
-            return {
-                ...state,
-                data: ''
-            }
-        default:
-            return state
-    }
-}
-
-export const fetchSpecificData = (state=specificDataInitialState, action={}) => {
-    switch(action.type) {
-        case DATA_REQUEST_PENDING:
-            return {
-                ...state,
-                isPending: true,
-                error: ''
-            }
-        case DATA_REQUEST_SUCCESS:            
-            return {
-                ...state,
-                isPending: false,
-                data: action.payload
-            }
-        case DATA_REQUEST_FAILED:
+        case REQUEST_FAILED:
             return {
                 ...state,
                 isPending: false,
                 error: action.payload
-            }
-        case RESET_DATA:
-            return {
-                ...state,
-                data: ''
             }
         default:
             return state
@@ -95,20 +58,27 @@ export const searchData = (state=searchInitialState, action={}) => {
     }
 } 
 
-export const handleUser = (state=userInitialState, action={}) => {
+export const handleUser = (state=loginStatus, action={}) => {
     switch(action.type) {
         case LOGGING_IN:
+            // For user authentication
             sessionStorage.setItem('token', action.payload.token)
+            sessionStorage.setItem('email', action.payload.user.email)
+            sessionStorage.setItem('username', action.payload.user.username)
+            
             return {
-                isLoggedIn: true,
-                user: action.payload.user
+                isLoggedIn: true
             }
+
         case LOGGING_OUT:
             sessionStorage.clear()
             return {
-                isLoggedIn: false,
-                user: ''
+                isLoggedIn: false
             }
+        case PAGE_MOVE:
+            sessionStorage.setItem('currentPage', action.payload)
+            return state
+            
         default:
             return state
     }

@@ -1,16 +1,7 @@
-// Fetch names request
-export const NAME_REQUEST_PENDING = 'NAME_REQUEST_PENDING'
-export const NAME_REQUEST_SUCCESS = 'NAME_REQUEST_SUCCESS'
-export const NAME_REQUEST_FAILED = 'NAME_REQUEST_FAILED'
-
 // Fetch data request
-export const DATA_REQUEST_PENDING = 'DATA_REQUEST_PENDING'
-export const DATA_REQUEST_SUCCESS = 'DATA_REQUEST_SUCCESS'
-export const DATA_REQUEST_FAILED = 'DATA_REQUEST_FAILED'
-
-/* Reset data when go back to main page 
-to prevent previous data from remaining and being rendered when moved to category page. */
-export const RESET_DATA = 'RESET_DATA'
+export const REQUEST_PENDING = 'REQUEST_PENDING'
+export const REQUEST_SUCCESS = 'REQUEST_SUCCESS'
+export const REQUEST_FAILED = 'REQUEST_FAILED'
 
 // search
 export const SEARCH = 'SEARCH'
