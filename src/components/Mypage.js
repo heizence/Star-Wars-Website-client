@@ -12,7 +12,6 @@ class Mypage extends Component {
     super(props)
     this.state = {
       newUsername: '',
-      usernameConfirmed: false,  
       newPassword: '',
       newPasswordCheck: ''
     }
@@ -57,29 +56,53 @@ class Mypage extends Component {
       }
   }
 
-  fetchModify = (newUsername, newPassword) => {
+  // User update request
+  fetchModify = async (newUsername, newPassword) => {
     let reqBody = { newUsername, newPassword, token: sessionStorage.getItem('token') }
 
-    fetch(`${serverAddress}/user/updateuser`, 
-    { 
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(reqBody)      
-    })
-    .then(res => {
-        if (res.status === 200) {
-          newUsername ? window.alert(`Username has been modified.`)
-          : window.alert(`Password has been modified.`)
+    try {
+      let res = await fetch(`${serverAddress}/user/updateuser`, 
+      { 
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(reqBody)      
+      })
+
+      if (res.status === 200) {
+        let json = await res.json()
+        console.log('status 200 json : ', json)
+
+        // Update token information in session
+        let newToken = json.token
+        sessionStorage.setItem('token', newToken)
+
+        if (newUsername) {
+          window.alert(`Username has been modified.`)
+          sessionStorage.setItem('username', json.user.username) // Update username information in session
+          this.setState({ newUsername: '' })        
         }
-    })
-    .catch(error => {
+        else {
+          window.alert(`Password has been modified.`)
+          this.setState({
+            newPassword: '',
+            newPasswordCheck: ''
+          })
+        }
+      }
+    }
+    catch(error) {
       window.alert('Error occured! Please try again later.')
       console.log(error)
-    })
+    }
+  }
+
+  componentDidMount() {
+    this.props.onRequestPageMove(window.location.href)  // Save current page URL
+    console.log('sessionToken : ', sessionStorage)
   }
 
   render() {
-    if (sessionStorage.length === 0) {  // if not logged in
+    if (sessionStorage.token) {  // if not logged in
       return <Redirect to='/' />
     }
     else {
@@ -89,8 +112,8 @@ class Mypage extends Component {
           <div style={{paddingTop: '50px', minHeight: '70vh'}}>
             <h1 className="titleCaption">MY PAGE</h1>
             <div style={{textAlign: "left", width: '40%', maxWidth: '500px', margin: 'auto'}}>
-                <div className="mypage-text">Email : {this.props.user.email}</div>
-                <div className="mypage-text">Username : {this.props.user.username}</div>
+                <div className="mypage-text">Email : {sessionStorage.getItem('email')}</div>
+                <div className="mypage-text">Username : {sessionStorage.getItem('username')}</div>
                 <div style={{marginTop: '50px'}}>
                     <div className="mypage-text" style={{fontSize: '17px', color: 'yellow'}}>
                     <span>* You don't have to fill all blanks.</span>
@@ -99,7 +122,8 @@ class Mypage extends Component {
 
                     <div style={{color: 'white', fontSize: '20px'}}>Change Username</div>
                     <Input className="signin-form" type="text" name="username" 
-                    id="exampleEmail" placeholder="new username" autoComplete="off"                  
+                    id="exampleEmail" placeholder="new username" autoComplete="off"     
+                    value={this.state.newUsername}             
                     onChange={(e) => this.setState({ newUsername: e.target.value })} />
                     <div>
                         <Button className="userform-button" 
@@ -112,6 +136,7 @@ class Mypage extends Component {
                 <div style={{marginTop: '20px'}}>
                     <div style={{color: 'white', fontSize: '20px'}}>Change Password</div>
                     <Input className="signin-form" type="password" name="password" 
+                    value={this.state.newPassword}
                     placeholder="new password" autoComplete="off"                  
                     onChange={(e) => this.setState({ newPassword: e.target.value })} />
                     
@@ -119,7 +144,8 @@ class Mypage extends Component {
 
                 <div style={{marginTop: '20px'}}>
                     <div style={{color: 'white', fontSize: '20px'}}>Confirm Password</div>
-                    <Input className="signin-form" type="password" name="password" 
+                    <Input className="signin-form" type="password" name="checkpassword" 
+                    value={this.state.newPasswordCheck}
                     placeholder="password" autoComplete="off"
                     onChange={(e) => this.setState({ newPasswordCheck: e.target.value})} />
                 </div>

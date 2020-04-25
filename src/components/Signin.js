@@ -12,7 +12,8 @@ class Signin extends Component {
     super(props)
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      isLoggedIn: sessionStorage.length
     }
   }
 
@@ -48,7 +49,7 @@ class Signin extends Component {
     .then(res => res.json())
     .then(user => {
       if (!user) {
-        window.alert('No matching user.')
+        window.alert('No matching user. Check your Email address and password.')
       }
       else if (user.token) {
         window.alert('Logged in!')
@@ -61,6 +62,7 @@ class Signin extends Component {
     })
   }
 
+  // automatically log in when press Enter key in a password form.
   pressEnter = (e, callback) => {
     if (e.keyCode === 13) {
       callback()
@@ -68,8 +70,8 @@ class Signin extends Component {
   }
 
   render() {
-    if (sessionStorage.length > 0) {  // if logged in
-      return <Redirect to='/' />
+    if (sessionStorage.token) {  // if logged in
+      return <Redirect to={`/${sessionStorage.getItem('currentPage')}`} />
     }
     else {
       return (

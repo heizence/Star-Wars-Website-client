@@ -41,6 +41,11 @@ class MembershipWithdraw extends Component {
     })
   }
 
+  componentDidMount() {
+    this.props.onRequestPageMove(window.location.href)  // Save current page URL
+    console.log('sessionToken : ', sessionStorage)
+  }
+
   render() {
     if (sessionStorage.length === 0) {  // if not logged in
       return <Redirect to='/' />

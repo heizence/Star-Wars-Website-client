@@ -87,7 +87,13 @@ class Signup extends Component {
       console.log('res : ' , res)
       if (res.status === 200) {        
         window.alert('Signed Up!')
-        this.setState({ signedUp: true })    
+        this.setState({ 
+          signedUp: true,
+          email: '',
+          username: '',
+          password: '',
+          passwordCheck: ''
+        })    
       }
     })
     .catch(error => {
@@ -97,8 +103,9 @@ class Signup extends Component {
   }
 
   render() {
-    if (this.state.signedUp) {
-      return <Redirect to='/' />
+    console.log('sessionStorage : ', sessionStorage)
+    if (this.state.signedUp > 0) {  // When signed up completed
+      return <Redirect to='/signin' />
     }
     else {
       return (
@@ -111,6 +118,7 @@ class Signup extends Component {
                 <Label className="signin-label" for="exampleEmail" sm={2}>Email</Label>
                 <Col sm={10}>
                   <Input className="signin-form" type="email" name="email" 
+                  value={this.state.email}
                   placeholder="email" autoComplete="off"                  
                   onChange={(e) => this.setState({ email: e.target.value })} />
                   <Button className="userform-button" style={{marginLeft: '30px'}}
@@ -121,6 +129,7 @@ class Signup extends Component {
                 <Label className="signin-label" for="examplePassword" sm={2}>Username</Label>
                 <Col sm={10}>
                   <Input className="signin-form" type="text" name="username" 
+                  value={this.state.username}
                   placeholder="username" autoComplete="off"
                   onChange={(e) => this.setState({ username : e.target.value})} />
                   <Button className="userform-button" style={{marginLeft: '30px'}}
@@ -131,6 +140,7 @@ class Signup extends Component {
                 <Label className="signin-label" for="examplePassword" sm={2}>Password</Label>
                 <Col sm={10}>
                   <Input className="signin-form" type="password" name="password" 
+                  value={this.state.password}
                   placeholder="password" autoComplete="off"
                   onChange={(e) => this.setState({ password: e.target.value })} />
                 </Col>
