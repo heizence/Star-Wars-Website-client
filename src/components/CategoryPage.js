@@ -7,9 +7,9 @@ import GoBackButton from './GoBackButton'
 import InfoCaption from './InfoCaption'
 import Navbar from './Navbar'
 
-class categoryPage extends Component {    
+class CategoryPage extends Component {    
     searchDataAndRender(text) {
-        let data = this.props.names_data.filter(element => {
+        let data = this.prData_data.filter(element => {
             let str = element.name || element.title
             let txt = new RegExp(text, "i")
             return txt.test(str)
@@ -18,7 +18,7 @@ class categoryPage extends Component {
     }
 
     renderPageButtons(category) {
-        const numberOfPages = this.props.names_data.length
+        const numberOfPages = this.props[category].length
     
         let pageIndex = this.props.location.search.split('=')[1]  
         let indexArr = []
@@ -52,24 +52,31 @@ class categoryPage extends Component {
     }
 
     componentDidMount() {
+        this.props.onRequestPageMove(window.location.href)  // Save current page URL
         console.log('sessionToken : ', sessionStorage)
-        this.props.onRequestNames(this.props.category)
+        
+        // When refreshing browser
+        if (!this.props[this.props.category]) {
+            this.props.onRequestData(this.props.category)
+        }
+        
     }
 
     render() {        
         let pageIndex = this.props.location.search.split('=')[1]
         let category = this.props.category
-        let data
-        
+        let dataToRender
+
         if (this.props.text) {
-            data = this.searchDataAndRender(this.props.text)
+            console.log('searchText : ' , this.props.text)
+            dataToRender = this.searchDataAndRender(this.props.text)
         } 
         // Set index only data type is Array, especially moved back from EachDataPage. 
-        else if (!this.props.names_isPending) {
+        else if (!this.props.isPending) {
             // Render 12 items per a page
             let startIndex = (pageIndex-1) * 12
             let endIndex = pageIndex * 12
-            data = this.props.names_data.slice(startIndex, endIndex)
+            dataToRender = this.props[category].slice(startIndex, endIndex)
         } 
         
         return (   
@@ -90,13 +97,12 @@ class categoryPage extends Component {
                 </div>
 
                 <div>     
-                    {!this.props.names_isPending && data? 
+                    {!this.props.isPending && dataToRender ? 
                     <div>
                         <div className="category-container">
-                        {data.map((element, index) =>  
+                        {dataToRender.map((element, index) =>  
                             <RenderDataBox key={index}
                             category={category} element={element} 
-                            index={index} pageIndex={pageIndex} 
                             onSearchData={this.props.onSearchData}/>                      
                         )}                    
                         </div>
@@ -108,7 +114,7 @@ class categoryPage extends Component {
                     </div>
                     : <div style={{
                         color: 'white', marginTop: '50px', fontSize: '30px', fontWeight: 'bold'                    
-                    }}>{this.props.names_error ? 'Error! Please try again later' : 'Loading...'}</div>
+                    }}>{this.props.error ? 'Error! Please try again later' : 'Loading...'}</div>
                     } 
                 </div>    
             </div>  
@@ -119,4 +125,4 @@ class categoryPage extends Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(categoryPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryPage);

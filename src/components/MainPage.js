@@ -1,19 +1,27 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { mapDispatchToProps } from '../reduxFiles/props'
+import { mapStateToProps, mapDispatchToProps } from '../reduxFiles/props'
 import Navbar from './Navbar'
 import InfoCaption from './InfoCaption'
 
+const categories = [ "Character", "Film", "Planet", "Specie", "Starship", "Vehicle"]
+
 class MainPage extends Component {
   componentDidMount() {
+    this.props.onRequestPageMove(window.location.href)  // Save current page URL
     console.log('sessionToken : ', sessionStorage)
-    // Reset Data
-    this.props.onResetData()
+    
+    
+    // Data fetch
+    // for (let i=0; i<categories.length; i++) {
+    //   if (!this.props[categories[i]]) {
+    //     this.props.onRequestData(categories[i])
+    //   }
+    // }
   }
 
   render() {
-    const categories = [ "Character", "Film", "Planet", "Specie", "Starship", "Vehicle"]
     const titleStyle = { color: 'white', padding: '0px 30px 0px 30px' }
 
     return (      
@@ -27,10 +35,8 @@ class MainPage extends Component {
 
         <div className="category-container">       
           {categories.map((element, index) => 
-              <Link to={`/category/${element}?categorypage=1`} key={index} style={{textDecoration: 'none', color: 'white'}}>
-                  <div className="category-box" id={element} key={index} onClick={() => {
-                    console.log('Category box clicked : ', element)
-                  }}>
+              <Link to={`/category/${element}?page=1`} key={index} style={{textDecoration: 'none', color: 'white'}}>
+                  <div className="category-box" id={element} key={index}>
                   <div className="box-text">{element}</div>
                   </div>
               </Link>
@@ -43,4 +49,4 @@ class MainPage extends Component {
   }
 }
 
-export default connect(null, mapDispatchToProps)(MainPage);
+export default connect(mapStateToProps, mapDispatchToProps)(MainPage);
