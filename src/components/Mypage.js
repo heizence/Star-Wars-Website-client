@@ -98,11 +98,11 @@ class Mypage extends Component {
 
   componentDidMount() {
     this.props.onRequestPageMove(window.location.href)  // Save current page URL
-    console.log('sessionToken : ', sessionStorage)
+    //console.log('sessionToken : ', sessionStorage)
   }
 
   render() {
-    if (sessionStorage.token) {  // if not logged in
+    if (!sessionStorage.token) {  // if not logged in
       return <Redirect to='/' />
     }
     else {

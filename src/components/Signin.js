@@ -71,7 +71,9 @@ class Signin extends Component {
 
   render() {
     if (sessionStorage.token) {  // if logged in
-      return <Redirect to={`/${sessionStorage.getItem('currentPage')}`} />
+      let directionPath = sessionStorage.getItem('currentPage')
+      // To prevent bug when currentPage URL is null
+      return <Redirect to={directionPath ? `/${sessionStorage.getItem('currentPage')}` : '/'} />
     }
     else {
       return (

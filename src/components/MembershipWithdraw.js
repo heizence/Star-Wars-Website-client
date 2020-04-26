@@ -41,6 +41,13 @@ class MembershipWithdraw extends Component {
     })
   }
 
+  // automatically withdraw membership when press Enter key in a password form.
+  pressEnter = (e, callback) => {
+    if (e.keyCode === 13) {
+      callback()
+    }
+  }
+
   componentDidMount() {
     this.props.onRequestPageMove(window.location.href)  // Save current page URL
     console.log('sessionToken : ', sessionStorage)
@@ -73,6 +80,7 @@ class MembershipWithdraw extends Component {
                 <Col sm={10}>
                   <Input className="signin-form" type="password" name="password" 
                   placeholder="password" autoComplete="off"
+                  onKeyUp={(e) => this.pressEnter(e, this.fetchDeleteAccount)}
                   onChange={(e) => this.setState({ password: e.target.value})} />
                 </Col>
               </FormGroup>

@@ -8,8 +8,8 @@ import InfoCaption from './InfoCaption'
 import Navbar from './Navbar'
 
 class CategoryPage extends Component {    
-    searchDataAndRender(text) {
-        let data = this.prData_data.filter(element => {
+    searchDataAndRender(category, text) {
+        let data = this.props[category].filter(element => {
             let str = element.name || element.title
             let txt = new RegExp(text, "i")
             return txt.test(str)
@@ -53,10 +53,10 @@ class CategoryPage extends Component {
 
     componentDidMount() {
         this.props.onRequestPageMove(window.location.href)  // Save current page URL
-        console.log('sessionToken : ', sessionStorage)
+        //console.log('sessionToken : ', sessionStorage)
         
         // When refreshing browser
-        if (!this.props[this.props.category]) {
+        if (!this.props[this.props.category]) { 
             this.props.onRequestData(this.props.category)
         }
         
@@ -69,7 +69,7 @@ class CategoryPage extends Component {
 
         if (this.props.text) {
             console.log('searchText : ' , this.props.text)
-            dataToRender = this.searchDataAndRender(this.props.text)
+            dataToRender = this.searchDataAndRender(category, this.props.text)
         } 
         // Set index only data type is Array, especially moved back from EachDataPage. 
         else if (!this.props.isPending) {

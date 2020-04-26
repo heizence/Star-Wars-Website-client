@@ -44,5 +44,8 @@ export const requestPageMove = (dispatch, address) => {
     // Refactoring address into router path
     // For example : http://localhost:3000/category/Character?page=1 -> category/Character?page=1
     let routePath = address.split('/').slice(3).join('/')
+    if (routePath === null) {
+        routePath = ''
+    }
     dispatch({ type: PAGE_MOVE, payload: routePath })
 }
