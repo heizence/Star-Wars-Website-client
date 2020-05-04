@@ -9,7 +9,9 @@ export const requestData = (category) => async (dispatch) => {
     let requestAddress =`${serverAddress}/data/getdata?category=${category}`
 
     try {
-        let res = await fetch(requestAddress)
+        let res = await fetch(requestAddress, {
+            mode: 'no-cors'
+        })
         if (res.status === 200) {
             let data = await res.json()
             dispatch({ type: REQUEST_SUCCESS, payload: data, category })
