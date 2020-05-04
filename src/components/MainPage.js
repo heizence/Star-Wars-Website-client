@@ -12,13 +12,12 @@ class MainPage extends Component {
     this.props.onRequestPageMove(window.location.href)  // Save current page URL
     console.log('sessionToken : ', sessionStorage)
     
-    
-    // Data fetch
-    // for (let i=0; i<categories.length; i++) {
-    //   if (!this.props[categories[i]]) {
-    //     this.props.onRequestData(categories[i])
-    //   }
-    // }
+    //Data fetch
+    for (let i=0; i<categories.length; i++) {
+      if (!this.props[categories[i]]) {
+        this.props.onRequestData(categories[i])
+      }
+    }
   }
 
   render() {
