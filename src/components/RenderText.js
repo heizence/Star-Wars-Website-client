@@ -49,22 +49,26 @@ export const renderTextData = (object) => {
 }
 
 // Render relational data structured by array
-export const renderRelationalData = (object, callback) => {  
+export const renderRelationalData = (object) => {  
     let data = object.relationalData
-
+    console.log('renderRelationalData : ', data)
     return Object.keys(data).map((key, index) => {
         return (
             <div key={index} className="each-relationalBox">
                 <div className="contents-tag">Related {data[key].category}</div> 
                 {data[key].data.length > 0 ?
                     data[key].data.map((element, index2) => {
-                        return (
-                        <div key={index2} style={{display: 'inline-block', marginRight: '10px'}}>
-                            <Link to={`/category/${data[key].category}/${element.split(' ').join('+').split('/').join('&')}`}
-                            className="text-link">{element}</Link>
-                        {index2 < data[key].data.length-1 ? ',' : ''}
-                        </div>
-                        )
+                        console.log('data render : ', element)
+                        if (element) {
+                            return (
+                            <div key={index2} style={{display: 'inline-block', marginRight: '10px'}}>
+                                <Link to={`/category/${data[key].category}/${element.split(' ').join('+').split('/').join('&')}`}
+                                className="text-link">{element}</Link>
+                            {index2 < data[key].data.length-1 ? ',' : ''}
+                            </div>
+                            )
+                        }
+                        else { return 'none'}
                     }) 
                     :
                     <div style={{display: 'inline-block', marginRight: '10px'}}>none
