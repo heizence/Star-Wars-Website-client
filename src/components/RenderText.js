@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 
 // Render non-relational data
 export const renderTextData = (object) => {   
+    console.log('renderTextData : ', object)
     return Object.keys(object).map((key, index) => {
         if (key !== 'relationalData') {
             if (Array.isArray(object[key])) {
