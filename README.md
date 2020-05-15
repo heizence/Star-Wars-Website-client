@@ -3,12 +3,12 @@
 이 프로젝트는 영화 스타워즈에 등장하는 여러 가지 요소들에 대한 정보를 제공합니다. 총 6개의 카테고리로 분류되어 있습니다. 정보 제공 외에 사용자 회원 가입 기능을 제공하고 현재 게시판 기능을 구현하고 있습니다.
 
 ### Categories provided
-+ Characters
-+ Films
-+ Planets
-+ Species
-+ Starships
-+ Vehicles
++ Character
++ Film
++ Planet
++ Specie
++ Starship
++ Vehicle
 
 ## Demonstration
 <img src="https://user-images.githubusercontent.com/47074893/80310626-abba6900-8816-11ea-9ef5-a781c79da67f.png" width="600px" height="auto" alt=""></img><br/>
