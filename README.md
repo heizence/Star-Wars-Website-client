@@ -4,16 +4,16 @@
 
 ### Categories provided
 + Characters
-+ Planets
 + Films
++ Planets
 + Species
 + Starships
 + Vehicles
 
 ## Demonstration
-<img src="https://user-images.githubusercontent.com/47074893/80310627-ae1cc300-8816-11ea-8569-918abe18face.png" width="600px" height="auto" alt=""></img><br/>
-
 <img src="https://user-images.githubusercontent.com/47074893/80310626-abba6900-8816-11ea-9ef5-a781c79da67f.png" width="600px" height="auto" alt=""></img><br/>
+
+<img src="https://user-images.githubusercontent.com/47074893/80310627-ae1cc300-8816-11ea-8569-918abe18face.png" width="600px" height="auto" alt=""></img><br/>
 
 <img src="https://user-images.githubusercontent.com/47074893/80310629-afe68680-8816-11ea-8160-4f7f33b18df7.png" width="600px" height="auto" alt=""></img><br/>
 
