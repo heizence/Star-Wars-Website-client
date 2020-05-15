@@ -1,6 +1,7 @@
 # Star Wars Website-client
+This project provides information on the different elements featured in the movie Star Wars. It is divided into 6 categories. In addition to providing information, it provides a user membership registration function.
 
-이 프로젝트는 영화 스타워즈에 등장하는 여러 가지 요소들에 대한 정보를 제공합니다. 총 6개의 카테고리로 분류되어 있습니다. 정보 제공 외에 사용자 회원 가입 기능을 제공하고 현재 게시판 기능을 구현하고 있습니다.
+__Currently working on a bulletin board function which will be soon added.__
 
 ### Categories provided
 + Character
