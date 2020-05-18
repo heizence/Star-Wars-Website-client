@@ -24,7 +24,7 @@ class CategoryPage extends Component {
         let indexArr = []
         
         // Render 12 items per a page
-        for (let i=1; i<=Math.round(numberOfPages/12); i++) {
+        for (let i=1; i<=Math.ceil(numberOfPages/12); i++) {
             indexArr.push(i)
         }
 
